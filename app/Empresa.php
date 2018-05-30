@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Empresa extends Model
 {
   protected $table="empresa";
-  protected $primaryKey="idEmpresa";
-  protected $fillable=['name','ruc','telefono'];
-
+  protected $fillable=['nombreempresa','ruc','telefono'];
+  protected $primaryKey="id";
+  public $timestamps=false;
+  
   public function localnegocio(){
     return $this->hasMany('App\LocalNegocio');
   }

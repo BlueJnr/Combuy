@@ -13,17 +13,16 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('Menu', function (Blueprint $table) {
-            $table->increments('idMenu');
-            $table->string('Plato');
-            $table->string('Precio');
-            $table->string('Disponible');
+        Schema::create('menu', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('plato',45);
+            $table->string('precio',45);
+            $table->string('disponible',1);
 
-            $table->integer('idNegocio')->unsigned();
+            $table->integer('idlocalnegocio')->unsigned();
 
-            $table->foreign('idNegocio')->references('idNegocio')->on('LocalNegocio');
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
 
-            $table->timestamps();
         });
     }
 

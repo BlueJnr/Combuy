@@ -8,8 +8,9 @@ class AdmiNegocio extends Model
 {
   //protected $table="adminegocio";
   protected $table="admnegocio";
-  protected $fillable=['idNegocio','Usuario_idUsuario'];
-  protected $primaryKey="idAdmNegocio";
+  protected $fillable=['idlocalnegocio','idusuario'];
+  protected $primaryKey="id";
+  public $timestamps=false;
 
   public function user(){
     return $this->belongsTo('App\Usuario');

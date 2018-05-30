@@ -13,17 +13,19 @@ class CreateProductoLocalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ProductoLocal', function (Blueprint $table) {
-            $table->increments('idProductoLocal');
-            $table->string('precio');
+        Schema::create('productolocal', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nomproducto',40);
+            $table->string('descripcion',200);
+            $table->string('tiponegocio',40);
+            
+            $table->integer('idtipoproducto')->unsigned();
+            $table->integer('idmarca')->unsigned();
 
-            $table->integer('LocalNegocio_idNegocio')->unsigned();
-            $table->integer('Producto_idProducto')->unsigned();
+            $table->foreign('idtipoproducto')->references('id')->on('tipoproducto');
+            $table->foreign('idmarca')->references('id')->on('marca');
+            
 
-            $table->foreign('LocalNegocio_idNegocio')->references('idNegocio')->on('LocalNegocio');
-            $table->foreign('Producto_idProducto')->references('idProducto')->on('Producto');
-
-            $table->timestamps();
         });
     }
 

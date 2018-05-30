@@ -13,19 +13,18 @@ class CreatePedidoMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('PedidoMenu', function (Blueprint $table) {
+        Schema::create('pedidomenu', function (Blueprint $table) {
 
-            $table->increments('idVentaHistorial');
+            $table->increments('id');
             $table->integer('cantidad');
 
-            $table->integer('Cliente_idCliente')->unsigned();
-            $table->integer('Menu_idMenu')->unsigned();
+            $table->integer('idcliente')->unsigned();
+            $table->integer('idmenu')->unsigned();
 
 
-            $table->foreign('Cliente_idCliente')->references('idCliente')->on('Cliente');
-            $table->foreign('Menu_idMenu')->references('idMenu')->on('Menu');
+            $table->foreign('idcliente')->references('id')->on('cliente');
+            $table->foreign('idmenu')->references('id')->on('menu');
 
-            $table->timestamps();
         });
     }
 

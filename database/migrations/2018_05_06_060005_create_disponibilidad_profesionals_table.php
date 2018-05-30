@@ -13,20 +13,19 @@ class CreateDisponibilidadProfesionalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('DisponibilidadProfesional', function (Blueprint $table) {
-            $table->increments('idDisponibilidadProfesional');
-            $table->string('precio');
+        Schema::create('disponibilidadprofesional', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('dia',2);
+            $table->string('horainicio',2);
+            $table->string('horafin',2);
 
-            $table->integer('LocalNegocio_idNegocio')->unsigned();
-            $table->integer('Profesionales_idProfesionales')->unsigned();
-            $table->integer('Dia_idDia')->unsigned();
+            $table->integer('idlocalnegocio')->unsigned();
+            $table->integer('idprofesionales')->unsigned();
 
-            $table->foreign('LocalNegocio_idNegocio')->references('idNegocio')->on('LocalNegocio');
-            $table->foreign('Profesionales_idProfesionales')->references('idProfesionales')->on('Profesionales');
-            $table->foreign('Dia_idDia')->references('idDia')->on('Dia');
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
+            $table->foreign('idprofesionales')->references('id')->on('profesionales');
+        
 
-
-            $table->timestamps();
         });
     }
 

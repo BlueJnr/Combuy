@@ -7,17 +7,21 @@ use App\LocalNegocio;
 use App\TipoNegocio;
 use App\AdmiNegocio;
 use App\User;
+use App\TipoLocal;
 use Session;
 use Illuminate\Http\Request;
 use DB;
+use Input;
 
 class infoempresaController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    
      public function __construct()
      {
          $this->middleware('auth');
@@ -48,7 +52,7 @@ class infoempresaController extends Controller
      */
     public function store(Request $request)
     {
-      $reglas = [
+     /* $reglas = [
         'name' => 'required|string|max:255',
         'ruc' => 'required|string|max:11',
         'telefono' => 'required|string|max:9',
@@ -56,25 +60,26 @@ class infoempresaController extends Controller
         'longitud' => 'required|string|max:255',
         'telefono' => 'regex:/^[9|6|7][0-9]{8}$/',
 
-      ];
-
-
+      ];*/
         //$this->validate($request,$reglas);
-        //dd($request);
-        $cantidademp=DB::table('empresa')->count();
-        if($cantidademp>1){
-            Session::flash('message','Ya registró una empresa, verificar porfavor');
+        
+        $empresacreada = Empresa::where('nombreempresa', '=',$request->input('nombre'))->first();
+        dd($empresacreada);
+        if($empresacreada!=null){
+            Session::flash('message','Ya existe una empresa con ese nombre, ingrese otra porfavor');
             return view('infoempresa.operacion');
         }
         else{
+
             $empresa=new Empresa();
+            $tipolocal=new TipoLocal();
             $tiponegocio=new TipoNegocio();
             $localnegocio =new LocalNegocio();
             $adminegocio=new AdmiNegocio();
             $usuario=new User();
 
-            $empresa->nombreEmpresa=$request->input('name');
-            $empresa->RUC =$request->input('ruc');
+            $empresa->nombreEmpresa=$request->input('nombre');
+            $empresa->ruc =$request->input('ruc');
             $empresa->telefono =$request->input('telefono');
             $empresa->save();
 
@@ -82,25 +87,25 @@ class infoempresaController extends Controller
             $localnegocio->longitud=$request->input('longitud');
             $localnegocio->descripcion=$request->input('descripcion');
             $localnegocio->telefono=$request->input('telefono');
-            $localnegocio->Hora_inicio=$request->input('Hora_inicio');
-            $localnegocio->Hora_fin=$request->input('Hora_fin');
-            $localnegocio->Empresa_idEmpresa=$empresa->idEmpresa;
-            $tiponegocio->nombre =$request->input('tipo');
-            $tiponegocio->save();
-            $localnegocio->TipoNegocio_idTipoNegocio =$tiponegocio->idTipoNegocio;
+            $localnegocio->hora_inicio=$request->input('horainicio');
+            $localnegocio->hora_fin=$request->input('horafin');
+            $localnegocio->idempresa=$empresa->id;
             $localnegocio->save();
+            
+            $tiponegocio->nombre =$request->input('tiponegocio');
+            $tiponegocio->save();
+            
+            $tipolocal->idlocalnegocio=$localnegocio->id;
+            $tipolocal->idtiponegocio=$tiponegocio->id;
+            $tipolocal->save();
 
-
-            $adminegocio->idNegocio= $localnegocio->idNegocio;
-            $adminegocio->Usuario_idUsuario=auth()->user()->id;
+            $adminegocio->idlocalnegocio= $localnegocio->id;
+            $adminegocio->idusuario=auth()->user()->id;
             $adminegocio->save();
 
-
             Session::flash('message','Empresa registrada correctamente');
-
             return view('infoempresa.operacion');
-
-        }
+       }
         
     }
 

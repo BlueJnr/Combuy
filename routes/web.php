@@ -22,7 +22,16 @@ Route::get('/homeservicios', 'HomeServiciosController@index');
 Route::get('/homeserv_product', 'HomeServ_productController@index');
 Route::resource('empresa','infoempresaController');
 Route::resource('producto','productoController');
-Route::get('/registroproducto','productoController@registrarproducto');
-Route::get('productos','productoController@revisarproductos')->name('revisarproductos');
+//MOSTRAR PARA REGISTRO
+Route::get('negocioproducto/{nom}','productoController@selecionnegocio');
+//REVISAR O MOSTRAR
+Route::get('mostrarproductos/{nom}','productoController@revisarproductos');
+//REGISTRO
+Route::post('productos','productoController@registro');
+Route::get('/registroproducto','productoController@registrarproducto');  
+//ELIMINAR
+Route::delete('/eliminarproducto/{id}','productoController@eliminarproducto'); 
+
+//Route::get('productos','productoController@revisarproductos')->name('revisarproductos');
 
 

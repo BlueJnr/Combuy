@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class DisponibilidadProfesional extends Model
 {
+  protected $table="disponibilidadprofesional";
+  protected $fillable=['dia','horainicio','horafin','idlocalnegocio','idprofesionales'];
+  protected $primaryKey="id";
+  public $timestamps=false;
   public function localnegocio(){
     return $this->belongsTo('App\LocalNegocio');
   }

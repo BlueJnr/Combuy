@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoLocal extends Model
 {
   protected $table="productolocal";
-  protected $fillable=['precio'];
-  protected $primaryKey="idProductoLocal";
+  protected $fillable=['nomproducto','descripcion','idlocalnegocio','idtipoproducto','idmarca'];
+  protected $primaryKey="id";
+  public $timestamps=false;
   public function pedidoproducto(){
     return $this->hasMany('App\PedidoProducto');
   }

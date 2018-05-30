@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePedidoProductosTable extends Migration
+class CreateProdnegociosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreatePedidoProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedidoproducto', function (Blueprint $table) {
+        Schema::create('prodnegocios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cantidad');
-
-            $table->integer('idcliente')->unsigned();
+            
+            $table->integer('idlocalnegocio')->unsigned();
             $table->integer('idproductolocal')->unsigned();
 
-            $table->foreign('idcliente')->references('id')->on('cliente');
+            $table->decimal('precio',3,2);
+            $table->integer('stock');
+            
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
             $table->foreign('idproductolocal')->references('id')->on('productolocal');
-
         });
     }
 
@@ -33,6 +34,6 @@ class CreatePedidoProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('PedidoProducto');
+        Schema::dropIfExists('prodnegocios');
     }
 }

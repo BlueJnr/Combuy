@@ -13,18 +13,17 @@ class CreateServicioLocalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ServicioLocal', function (Blueprint $table) {
-            $table->increments('idServicio');
-            $table->string('precio');
+        Schema::create('serviciolocal', function (Blueprint $table) {
+            $table->increments('id');
+            $table->decimal('precio',3,2);
 
-            $table->integer('idNegocio')->unsigned();
-            $table->integer('TipoServicio_idTipoServicio')->unsigned();
+            $table->integer('idlocalnegocio')->unsigned();
+            $table->integer('idtiposervicio')->unsigned();
 
 
-            $table->foreign('idNegocio')->references('idNegocio')->on('LocalNegocio');
-            $table->foreign('TipoServicio_idTipoServicio')->references('idTipoServicio')->on('TipoServicio');
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
+            $table->foreign('idtiposervicio')->references('id')->on('tiposervicio');
 
-            $table->timestamps();
         });
     }
 

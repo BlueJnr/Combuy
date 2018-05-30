@@ -13,16 +13,15 @@ class CreateAdmiNegociosTable extends Migration
      */
     public function up()
     {
-        Schema::create('AdmNegocio', function (Blueprint $table) {
-            $table->increments('idAdmNegocio');
+        Schema::create('admnegocio', function (Blueprint $table) {
+            $table->increments('id');
 
-            $table->integer('idNegocio')->unsigned();
-            $table->integer('Usuario_idUsuario')->unsigned();
+            $table->integer('idlocalnegocio')->unsigned();
+            $table->integer('idusuario')->unsigned();
 
-            $table->foreign('idNegocio')->references('idNegocio')->on('LocalNegocio');
-            $table->foreign('Usuario_idUsuario')->references('idUsuario')->on('users');
-
-            $table->timestamps();
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
+            $table->foreign('idusuario')->references('id')->on('users');
+            
         });
     }
 

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
+  protected $table="cliente";
+  protected $fillable=['idusuario'];
+  protected $primaryKey="id";
+  public $timestamps=false;
   public function user(){
     return $this->belongsTo('App\User');
   }

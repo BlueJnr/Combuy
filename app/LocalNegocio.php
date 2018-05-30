@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class LocalNegocio extends Model
 {
     protected $table="localnegocio";
-    protected $fillable=['latitud','longitud','descripcion','telefono ','Hora_inicio','Hora_fin','Empresa_idEmpresa','TipoNegocio_idTipoNegocio'];
-    protected $primaryKey="idNegocio";
+    protected $fillable=['latitud','longitud','descripcion','telefono ','hora_inicio','hora_fin','idempresa'];
+    protected $primaryKey="id";
+    public $timestamps=false;
+
     public function adminegocio(){
       return $this->hasOne('App\AdmiNegocio');
     }

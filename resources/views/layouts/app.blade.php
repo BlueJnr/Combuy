@@ -53,7 +53,7 @@
                           <ul class="ul3 children">
 
                               <li class="l2">
-                                  <a href="{{ url('/registroproducto') }}" >Productos</a>
+                                  <a href="{{ url('/producto/create') }}" >Productos</a>
                               </li>
 
                           </ul>
@@ -93,8 +93,6 @@
 
 
     @yield('content')
-
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 

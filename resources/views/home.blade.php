@@ -4,7 +4,7 @@
 <div class="caja">
             <img src="image/sidebar_usuario-corporativo.png" >
             <h2 class="h2">NOMBRE</h2>
-            <h2>{{ Auth::user()->id }}</h2><h2>{{ Auth::user()->lastname }} </h2>
+            <h2>{{ Auth::user()->name }}</h2><h2>{{ Auth::user()->lastname }} </h2>
             <h2 class="h2">USUARIO</h2>
             <h2> {{ Auth::user()->username }}  </h2>
             <button type="submit" class="bdiv ">Editar</button>

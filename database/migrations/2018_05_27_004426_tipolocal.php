@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMarcasTable extends Migration
+class Tipolocal extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreateMarcasTable extends Migration
      */
     public function up()
     {
-        Schema::create('marca', function (Blueprint $table) {
+        Schema::create('tipolocal', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nommarca');
+            $table->integer('idtiponegocio')->unsigned();
+            $table->integer('idlocalnegocio')->unsigned();
+
+            $table->foreign('idtiponegocio')->references('id')->on('tiponegocio');
+            $table->foreign('idlocalnegocio')->references('id')->on('localnegocio');
+            
         });
     }
 
@@ -26,6 +31,6 @@ class CreateMarcasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Marca');
+        //
     }
 }
