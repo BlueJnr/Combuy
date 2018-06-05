@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="image/favicon_logo.ico" rel="icon">
+    <link rel="stylesheet" type="text/css" href="sweetalert/sweetalert.css">
+    <script src="sweetalert/sweetalert.min.js"></script>
     <title>COMBUY</title>
 
     {!!Html::style('css/app.css')!!}
@@ -26,6 +28,7 @@
         COMBUY
       </a>
   </div>
+  
   <div class="nav">
       <nav class="navbar navbar-static-top" role="navigation">
           <ul class="ul1">

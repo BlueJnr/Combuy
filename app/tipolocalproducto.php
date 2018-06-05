@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoLocal extends Model
+class tipolocalproducto extends Model
 {
-    protected $table="tipolocal";
-    protected $fillable=['idlocalnegocio','idlocalnegocio'];
+    protected $table="tipolocalproducto";
+    protected $fillable=['nombre'];
     protected $primaryKey="id";
     public $timestamps=false;
 }
+

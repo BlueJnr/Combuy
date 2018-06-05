@@ -7,9 +7,6 @@
 
 @include('ProductoOperaciones.modalregistro')
 
-<div id="msj-success" class="alert alert-success" role="alert" style="display:none">
-  		<strong> Producto agregado exitosamente.</strong>
-</div>
 
 <div class="container">
     <div class="row">
@@ -25,6 +22,16 @@
                           </div>
 
                     @endif
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <h4>Corrige los siguientes errores:</h4>
+                        <ul>
+                            @foreach ($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <div id="tiporegistro">
                         <button type="button" class="btn btn-dark" id="proexists">Productos existentes</button>
                         <button type="button" class="btn btn-dark" id="pronuevos">Productos nuevos</button>
@@ -43,10 +50,9 @@
                             
                             <label for="tiponego" class="col-md-4 control-label">Tipo negocio</label>
                             <div class="col-md-6">
-                                <select id="selectortiponegocio" class="form-control" name="tiponego">
-                                    <option disabled selected="selected" value="">Seleccione</option>
+                                <select id="selectortiponegocio" class="form-control" name="tiponego" required>
+                                    <option disabled selected="selected" value="">--Seleccione--</option>
                                     <option value="bodega">BODEGA</option>
-                                    <option value="farmacia">FARMACIA</option>
                                     <option value="libreria">LIBRERIA</option>
                                 </select>
                             </div>
@@ -59,21 +65,7 @@
 
                                     @if ($errors->has('nombre'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('nombre') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
-                            <div class="form-group{{ $errors->has('marca') ? ' has-error' : '' }}">
-                                <label for="tipo" class="col-md-4 control-label">Marca</label>
-
-                                <div class="col-md-6">
-                                    <input id="marca" type="text" class="form-control" name="marca" value="{{ old('marca') }}" required autofocus>
-
-                                    @if ($errors->has('marca'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('marca') }}</strong>
+                                            
                                         </span>
                                     @endif
                                 </div>
@@ -93,21 +85,20 @@
                             </div>
                             <label for="tipoproducto" class="col-md-4 control-label">Tipo producto</label>
                             <div class="col-md-6">
-                                <select id="selectortipoproducto" class="form-control" name="tipoproducto">
-                                    <option disabled selected="selected" value="">Seleccione</option>
-                                    <option value="fritura">FRITURA</option>
-                                    <option value="galleta">GALLETA</option> 
-                                    <option value="gaseosa">GASEOSA</option> 
-                                    <option value="chocolate">CHOCOLATE</option> 
-                                    <option value="pastilla">PASTILLA</option>
+                                <select id="selectortipoproducto" class="form-control" name="tipoproducto" required>
+                                    <option disabled selected="selected" value="">--Seleccione--</option>
+                                    @foreach($tipoproducto as $tp)
+                                        <option value="{{ $tp['id'] }}"> {{ $tp['nomtipo'] }} </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <br><br><br>
                             <!--BOTON REGISTRAR EN BLADE-->
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    {!!link_to('#',$title='Registrar', $attributes=['id'=>'registro','class'=>'btn btn-primary'],
-                                    $secure=null)!!}
+                                    <button type="submit" class="btn btn-success" id="registrodd">
+                                        Registrar
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -116,13 +107,12 @@
                     <table class="table">
                         <thead>
                             <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Marca</th>
-                            <th>Descripcion</th>
-                            
+                            <th>Descripción</th>
+                            <th>Tipo de producto</th>
+                            <th></th>
                         </thead> 
                         <tbody id="datos">
-                                
+                             
                         </tbody>
                     </table>
                     
@@ -143,15 +133,18 @@
 <script>
     var ids;
     var nomtiponegocio;
+    var array_datos=[];
     function Cargartabla(){
-        var route = "http://localhost/combuy/public/negocioproducto/"+nomtiponegocio;
+        var route = "{{ url('negocioproducto') }}/"+nomtiponegocio;
         var token=$("#token").val(); 
         var tablaDatos = $("#datos");
         
         $.get(route, function(res){
             tablaDatos.html('');
             $(res).each(function(key,value){   
-            tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.nomtipo+"</td><td>"+value.nommarca+"</td><td>"+value.descripcion+"</td><td>"+"<button value="+value.id+" OnClick='Mostrar(this);'  data-toggle='modal' data-target='#myModal' class='btn btn-success'>agregar"+"</td></tr>");
+                console.log(key);
+            tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.descripcion+"</td><td>"+value.nomtipo+"</td><td>"+"<button value="+value.id+" OnClick='Mostrar(this);'  data-toggle='modal' data-target='#myModal' class='btn btn-success'>agregar"+"</td><td>"+"<button value="+value.id+" id='boton' class='btn btn-danger'>boton"+"</td></tr>");
+            array_datos[key]=value.id;
             });
         });
     }
@@ -173,12 +166,11 @@
         Cargartabla();
     });
     $("#registrarmodal").click(function(){
-        
+       
         var identi=ids;
         var prec=$("#precio").val(); 
         var stoc=$("#stock").val();
-
-        var route = "http://localhost/combuy/public/productos";
+        var route ="{{ url('productos') }}";
         
         var token=$("#token").val(); 
         $.ajax({
@@ -192,8 +184,7 @@
                 stock:stoc
             },
             success: function(){
-                $("#myModal").modal('toggle');
-                $("#msj-success").fadeIn();
+               // $("#myModal").modal('toggle');
             }
         });
     });
@@ -208,32 +199,5 @@
         document.getElementById("selectortiponegocio").selectedIndex=0;
         document.getElementById("selectortipoproducto").selectedIndex=0;
 	});
-
-    
-    $("#registro").click(function(){
-  
-        var nom=$("#nombre").val(); 
-        var marc=$("#marca").val();
-        var desc=$("#descripcion").val();
-        var tiponegoc= $('#selectortiponegocio option:selected').attr('value');
-        var tipoprod= $('#selectortipoproducto option:selected').attr('value');
-
-        var route = "http://localhost/combuy/public/producto";
-        
-        var token=$("#token").val(); 
-        $.ajax({
-            url:route,
-            headers:{'X-CSRF-TOKEN':token},
-            type:'POST',
-            dataType:'json',
-            data:{
-                tiponegocio:tiponegoc,
-                nombre:nom,
-                descripcion:desc,
-                marca:marc,
-                tipoproducto:tipoprod,
-            }
-        });
-    });
 </script>
 @endsection

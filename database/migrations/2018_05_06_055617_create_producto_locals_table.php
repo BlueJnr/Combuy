@@ -17,14 +17,12 @@ class CreateProductoLocalsTable extends Migration
             $table->increments('id');
             $table->string('nomproducto',40);
             $table->string('descripcion',200);
-            $table->string('tiponegocio',40);
             
+            $table->integer('idtipolocalproducto')->unsigned();
             $table->integer('idtipoproducto')->unsigned();
-            $table->integer('idmarca')->unsigned();
 
+            $table->foreign('idtipolocalproducto')->references('id')->on('tipolocalproducto');
             $table->foreign('idtipoproducto')->references('id')->on('tipoproducto');
-            $table->foreign('idmarca')->references('id')->on('marca');
-            
 
         });
     }

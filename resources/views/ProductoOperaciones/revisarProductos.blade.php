@@ -21,12 +21,12 @@
         </div>
         <br><br>
             <div class="panel-body" id="tablaproductos">
-              <table class="table">
+              <table class="table" >
                   <thead>
                       <th>Nombre</th>
                       <th>Tipo</th>
-                      <th>Marca</th>
-                      <th>Descripcion</th>
+                      <th>Descripción</th>
+                      <th></th>
                   </thead> 
                   <tbody id="datos">
                             
@@ -45,8 +45,12 @@
     function Eliminar(btn){
         
         ids=btn.value;
+
+       
+
+
         var identi=ids;
-        var route = "http://localhost/combuy/public/eliminarproducto/"+identi;
+        var route = "http://localhost/combuy_v1.1/Combuy/public/eliminarproducto/"+identi;
         var token=$("#token").val();
          $.ajax({
             url: route,
@@ -60,18 +64,20 @@
         });
     }
     function cargartabla(){
-        var route = "http://localhost/combuy/public/mostrarproductos/"+nomtiponegocio;
+        var route = "http://localhost/combuy_v1.1/Combuy/public/mostrarproductos/"+nomtiponegocio;
         var tablaDatos = $("#datos");
         $("#datos").empty();
         $.get(route, function(res){
             if(res){
                 tablaDatos.html('');
                 $(res).each(function(key,value){   
-                    tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.nomtipo+"</td><td>"+value.nommarca+"</td><td>"+value.descripcion+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.nomtipo+"</td><td>"+value.descripcion+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
                 });
                 
+            }else{
+                alert("No se ha ingresado un negocio");
             }
-            alert("No se ha ingresado un negocio");
+            
         });
     }
     $("#bodega").on( "click", function() {

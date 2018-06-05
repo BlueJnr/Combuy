@@ -22,6 +22,11 @@
   </div>
 
   <div class="my-content" >
+    @if(Session::has('message'))
+        <div class="alert alert-danger">
+            {{ Session::get('message') }}
+        </div>
+    @endif
     <div class="col-sm-12  mytitle" >
         <h1>Formulario de Registro</h1>
     </div>
@@ -112,17 +117,31 @@
 
                             <input id="password-confirm" type="password" class="form-control"
                             placeholder="Confirma contraseña..." name="password_confirmation" required>
-
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <hr>
+                        <div class="form-group{{ $errors->has('nombrenegocio') ? ' has-error' : '' }}">
+
+                            <input id="nombrenegocio" type="text" class="form-control"
+                            placeholder="Nombre de negocio..." name="nombrenegocio" required>
+
+                            @if ($errors->has('nombrenegocio'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('nombrenegocio') }}</strong>
+                                </span>
+                            @endif
+
+                        </div>
                        
                         <div class="my-formulario">
-                            <input type="radio" name="tipo_negocio" id="solo-prod" value="Productos">
-                            <label for="solo-prod">Negocio de solo productos </label><br>
-                            <input type="radio" name="tipo_negocio" id="ser-prod" value="Productos y Servicios">
-                            <label for="ser-prod">Negocio de productos y servicios</label><br>
-                            <input type="radio" name="tipo_negocio" id="comida" value="Servicios">
-                            <label for="comida">Vendedor de platos de comida</label>
+                            <input type="radio" name="tipo_negocio" id="solo-prod" value="producto">
+                            <label for="solo-prod">Negocio de productos </label><br>
+                            <input type="radio" name="tipo_negocio" id="ser-prod" value="servicio">
+                            <label for="ser-prod">Negocio de servicios</label>
                         </div>
                             
                         <div class="form-group">
@@ -134,11 +153,7 @@
                         </div>
 
                     </form>
-                    @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                    @endif
+                    
                     <a href="{{ url('/') }}">volver</a>
 
                 </fieldset>
@@ -150,4 +165,5 @@
 </div>
 
 </body>
+
 </html>

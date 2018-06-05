@@ -52,62 +52,83 @@ class infoempresaController extends Controller
      */
     public function store(Request $request)
     {
-     /* $reglas = [
-        'name' => 'required|string|max:255',
-        'ruc' => 'required|string|max:11',
-        'telefono' => 'required|string|max:9',
-        'latitud' => 'required|string|max:255',
-        'longitud' => 'required|string|max:255',
-        'telefono' => 'regex:/^[9|6|7][0-9]{8}$/',
-
-      ];*/
-        //$this->validate($request,$reglas);
+       
+      $reglas = [
+        'latitud' => 'max:30',
+        'longitud' => 'max:30',
+        'telefono' => ['required','min:9','max:9','regex:/^[9|6|7][0-9]{8}$/'],
+        'descripcion' => 'required|max:50',
+        'Hora_inicio' => ['required','min:4','max:5','regex:/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/'],
+        'Hora_fin' => ['required','min:4','max:5','regex:/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/'],
+        'ruc' => 'required|min:10|max:10',
         
-        $empresacreada = Empresa::where('nombreempresa', '=',$request->input('nombre'))->first();
-        dd($empresacreada);
-        if($empresacreada!=null){
-            Session::flash('message','Ya existe una empresa con ese nombre, ingrese otra porfavor');
-            return view('infoempresa.operacion');
-        }
-        else{
-
-            $empresa=new Empresa();
-            $tipolocal=new TipoLocal();
-            $tiponegocio=new TipoNegocio();
-            $localnegocio =new LocalNegocio();
-            $adminegocio=new AdmiNegocio();
-            $usuario=new User();
-
-            $empresa->nombreEmpresa=$request->input('nombre');
-            $empresa->ruc =$request->input('ruc');
-            $empresa->telefono =$request->input('telefono');
-            $empresa->save();
-
-            $localnegocio->latitud=$request->input('latitud');
-            $localnegocio->longitud=$request->input('longitud');
-            $localnegocio->descripcion=$request->input('descripcion');
-            $localnegocio->telefono=$request->input('telefono');
-            $localnegocio->hora_inicio=$request->input('horainicio');
-            $localnegocio->hora_fin=$request->input('horafin');
-            $localnegocio->idempresa=$empresa->id;
-            $localnegocio->save();
-            
-            $tiponegocio->nombre =$request->input('tiponegocio');
-            $tiponegocio->save();
-            
-            $tipolocal->idlocalnegocio=$localnegocio->id;
-            $tipolocal->idtiponegocio=$tiponegocio->id;
-            $tipolocal->save();
-
-            $adminegocio->idlocalnegocio= $localnegocio->id;
-            $adminegocio->idusuario=auth()->user()->id;
-            $adminegocio->save();
-
-            Session::flash('message','Empresa registrada correctamente');
-            return view('infoempresa.operacion');
-       }
+      ];
+      $messages = [
+        'telefono.regex' => ' El teléfono ingresado no cumple con el formato adecuado.',
+        'telefono.min' => ' El teléfono ingresado debe tener :min caracteres numéricos.',
+        'telefono.max' => 'El teléfono ingresado debe tener :max caracteres numéricos.',
+        'Hora_inicio.max' =>' Formato de hora incorrecto HH:MM.',
+        'Hora_inicio.min' =>' Formato de hora incorrecto HH:MM.',
+        'Hora_inicio.regex' =>' Formato de hora incorrecto HH:MM.',
+        'Hora_fin.max' =>' Formato de hora incorrecto HH:MM.',
+        'Hora_fin.min' =>' Formato de hora incorrecto HH:MM.',
+        'Hora_fin.regex' =>' Formato de hora incorrecto HH:MM.',
+        'ruc.required' => ' El número ruc ingresado no es válido.',
+        'ruc.min' => ' El número ruc ingresado debe debe tener :min caracteres numéricos.',
+        'ruc.max' => ' El número ruc ingresadodebe debe tener :max caracteres numéricos.',
+    ];
+        $this->validate($request,$reglas,$messages);
+        
+        $negocioactual=DB::table('admnegocio')
+        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+        ->join('localnegocio','admnegocio.idlocalnegocio','=','localnegocio.id')
+        ->join('tiponegocio','localnegocio.idtiponegocio','=','tiponegocio.id')
+        ->select('localnegocio.nombrenegocio','localnegocio.idtiponegocio','localnegocio.id')
+        ->where('users.id', '=',auth()->user()->id)
+        ->first();
+       
+        $localnegocio= LocalNegocio::find($negocioactual->id);
+       
+        $localnegocio->fill([
+            'nombrenegocio'=>$negocioactual->nombrenegocio,
+            'ruc'=>$request->ruc,
+            'latitud'=>$request->latitud,
+            'longitud'=>$request->longitud,
+            'descripcion'=>$request->descripcion,
+            'hora_inicio'=>$request->Hora_inicio,
+            'hora_fin'=>$request->Hora_fin,
+            'idtiponegocio'=>$negocioactual->idtiponegocio,
+            'telefono'=>$request->telefono,
+        ]);
+       
+        $localnegocio->save();
+        Session::flash('message','Ha registrado correctamente su negocio');
+        return view('infoempresa.operacion');
         
     }
+    public function revisarnegocio(){
+
+        $idnegocioactual=DB::table('admnegocio')
+        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+        ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
+        ->first();
+       
+        
+        if($idnegocioactual!=null){
+            $negocio=DB::table('localnegocio')
+            ->select('id','nombrenegocio','ruc','descripcion','telefono','hora_inicio','hora_fin')
+            ->where('id',$idnegocioactual->idlocalnegocio)
+            ->get();
+            
+            return response()->json($negocio);
+        }
+        else{
+            $nada=false;
+            return response()->json($nada);
+        }
+        
+    }
+    
 
     /**
      * Display the specified resource.
@@ -140,7 +161,7 @@ class infoempresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -152,5 +173,32 @@ class infoempresaController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function eliminarnegocio($id)
+    {
+        
+        $localnegocio=new LocalNegocio();
+        $datostiponegocio=DB::table('localnegocio')
+        ->select('nombrenegocio','idtiponegocio')
+        ->where('id',$id)
+        ->first();
+        $localnegocio= LocalNegocio::find($id);
+
+         $localnegocio->fill([
+            'nombrenegocio'=>$datostiponegocio->nombrenegocio,
+            'ruc'=>null,
+            'latitud'=>null,
+            'longitud'=>null,
+            'descripcion'=>null,
+            'hora_inicio'=>null,
+            'hora_fin'=>null,
+            'idtiponegocio'=>$datostiponegocio->idtiponegocio,
+            'telefono'=>null,
+        ]);
+       
+        $localnegocio->save();
+        return response()->json([
+            "mensaje"=>"Se elimino la informacion del negocio"
+        ]);
     }
 }

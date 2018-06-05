@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PedidoProducto extends Model
 {
   protected $table="pedidoproducto";
-  protected $fillable=['cantidad','idcliente','idproductolocal'];
+  protected $fillable=['cantidad','idcliente','idprodnegocios'];
   protected $primaryKey="id";
   public $timestamps=false;
   public function cliente(){

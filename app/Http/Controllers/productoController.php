@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Marca;
-use App\Caracteristica;
+use App\tipolocalproducto;
 use App\TipoProd;
 use App\Producto;
 use Session;
@@ -40,7 +39,8 @@ class productoController extends Controller
      */
     public function create()
     {
-        return view('ProductoOperaciones.registProducto');
+        $tipoproducto=TipoProd::All();
+        return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
     }
     public function selecionnegocio($tipo)
     {
@@ -51,11 +51,12 @@ class productoController extends Controller
         ->first();
         
         $productos=DB::table('productolocal')
-        ->join('marca','productolocal.idmarca','=','marca.id')
         ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
-        ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','marca.nommarca','productolocal.descripcion')
-        ->where('productolocal.tiponegocio',$tipo)
+        ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
+        ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre')
+        ->where('tipolocalproducto.nombre',$tipo)
         ->get();
+        
         return response()->json($productos);
         
     }
@@ -66,14 +67,16 @@ class productoController extends Controller
         ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
         ->first();
         
+        $tipolocalproducto=DB::table('tipolocalproducto')->where('nombre',$tipo)->first();
+        
         if($idnegocioactual!=null){
             $productos=DB::table('prodnegocios')
             ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
             ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
-            ->join('marca','productolocal.idmarca','=','marca.id')
-            ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','marca.nommarca','productolocal.descripcion')
+            ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
+            ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion')
             ->where([
-                ['productolocal.tiponegocio', '=',$tipo],
+                ['productolocal.idtipolocalproducto', '=',$tipolocalproducto->id],
                 ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
             ->get();
             return response()->json($productos);
@@ -87,22 +90,42 @@ class productoController extends Controller
     }
     public function registro(Request $request){
         
+
+        /*
+        $reglas = [
+            'precio' => ['required','min:3','max:5','regex:/($[0-9,]+(.[0-9]{2})?)/'],
+            'stock' => ['required','min:9','max:9'],
+          ];
+          $messages = [
+            'precio.required' => 'No ha ingresado el precio.',
+            'precio.min' => 'Formato de precio incorrecto.',
+            'precio.max' => 'Formato de precio incorrecto.',
+            'precio.regex' => 'Formato de precio incorrecto.',
+        ];
+            $this->validate($request,$reglas,$messages);
+            */
+
         $prodnegocio=new prodnegocio();
         $productolocal=new ProductoLocal();
-
+        
         $idnegocioactual=DB::table('admnegocio')
         ->join('users', 'admnegocio.idusuario', '=', 'users.id')
         ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
         ->first();
+
         $prodexistente=DB::table('prodnegocios')
         ->where([
             ['idproductolocal','=',$request->id],
             ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
         ->exists();
+        
         if($prodexistente)
         {
-            return response()->json($prodexistente);
-            Session::flash('message','Usted ya registró ese producto');
+            //Session::flash('message','Usted ya registró ese producto');
+            return response()->json([
+                "mensaje"=>'Usted ya registró ese producto'
+            ]);
+            
         }else{
              
             $prodnegocio->idlocalnegocio=$idnegocioactual->idlocalnegocio;
@@ -113,10 +136,10 @@ class productoController extends Controller
             if($request->ajax()){
            
                 return response()->json([
-                    "mensaje"=>$request->all()
+                    "mensaje"=>'Producto registrado correctamente'
                      
                 ]);
-                Session::flash('message','Productos registrados correctamente');
+                //Session::flash('message','Productos registrados correctamente');
             }
         }
     }
@@ -131,43 +154,49 @@ class productoController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $productolocal=new ProductoLocal();
-        $marca=new Marca();
-        $tipoprod=new TipoProd();
 
-        if($request->tiponegocio!=null && $request->tipoproducto!=null){
-            
-            $prodexistente=DB::table('productolocal')->where('nomproducto',$request->nombre )->exists();
-            $marcaexistente=DB::table('marca')->where('nommarca',$request->marca )->exists();
-            if($prodexistente==false){
-                $marca->nommarca=$request->marca;
-                $marca->save();
-                $tipoprod->nomtipo=$request->tipoproducto;
-                $tipoprod->save();
-                $productolocal->nomproducto=$request->nombre;
-                $productolocal->descripcion=$request->descripcion;
-                $productolocal->tiponegocio=$request->tiponegocio;
-                $productolocal->idtipoproducto=$tipoprod->id;
-                $productolocal->idmarca=$marca->id;
-                $productolocal->save();
-                return response()->json([
-                        "mensaje"=>'Producto registrado correctamente'
-                    ]);
-                Session::flash('message','Producto registrado correctamente');
-            }else{
-                return response()->json([
-                        "mensaje"=>'Producto existente'
-                    ]);
-                Session::flash('message','Producto existente');
-            }
-        }else{
-            Session::flash('message','No se registro el producto');
-            return response()->json([
-                "mensaje"=>"No se registro el producto"
-            ]);
-        }
+       
+        $reglas = [
+            'tiponego' => 'required',
+            'nombre' => 'required|max:20',
+            'descripcion' => 'required|max:50',
+          ];
+          $messages = [
+            'nombre.max' => ' El nombre del producto ingresado es muy grande.',
+        ];
+            $this->validate($request,$reglas,$messages);
         
+
+        $productolocal=new ProductoLocal();
+        $tipolocalproducto=new tipolocalproducto();
+
+        $prodexistente=DB::table('productolocal')->where('nomproducto',$request->nombre)->exists(); 
+        
+        if(!$prodexistente){
+            
+            $tipolocalproducto=DB::table('tipolocalproducto')->where('nombre',$request->tiponego)->first();
+            $productolocal->nomproducto=$request->nombre;
+            $productolocal->descripcion=$request->descripcion;
+            $productolocal->idtipolocalproducto=$tipolocalproducto->id;
+            $productolocal->idtipoproducto=$request->tipoproducto;
+            $productolocal->save();
+
+            return response()->json([
+                    "mensaje"=>'Producto registrado correctamente'
+                ]);
+            //Session::flash('message','Producto registrado correctamente');
+        }else{
+            if($request->ajax()){
+           
+                return response()->json([
+                    "mensaje"=>'Producto existente, Ya esta registrado'
+                ]);    
+            // Session::flash('message','Producto existente');
+            }
+            $tipoproducto=TipoProd::All();
+            return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
+            Session::flash('message','El producto ya esta registrado');
+        }
     }
 
     /**

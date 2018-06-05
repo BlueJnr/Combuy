@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@if(Session::has('message'))
+        <div class="alert alert-success">
+            {{ Session::get('message') }}
+        </div>
+@endif
 <div class="caja">
             <img src="image/sidebar_usuario-corporativo.png" >
             <h2 class="h2">NOMBRE</h2>

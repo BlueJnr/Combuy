@@ -15,6 +15,8 @@ class Localnegocios extends Migration
     {
         Schema::create('localnegocio', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nombrenegocio',40);
+            $table->string('ruc',10);
             $table->string('latitud');
             $table->string('longitud');
             $table->string('descripcion',80);
@@ -22,9 +24,9 @@ class Localnegocios extends Migration
             $table->string('hora_inicio',5);
             $table->string('hora_fin',5);
             
-            $table->integer('idempresa')->unsigned();
+            $table->integer('idtiponegocio')->unsigned();
+            $table->foreign('idtiponegocio')->references('id')->on('tiponegocio');
             
-            $table->foreign('idempresa')->references('id')->on('empresa');
             
         });
     }

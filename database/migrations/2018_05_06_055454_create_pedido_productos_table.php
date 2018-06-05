@@ -18,10 +18,10 @@ class CreatePedidoProductosTable extends Migration
             $table->integer('cantidad');
 
             $table->integer('idcliente')->unsigned();
-            $table->integer('idproductolocal')->unsigned();
+            $table->integer('idprodnegocios')->unsigned();
 
             $table->foreign('idcliente')->references('id')->on('cliente');
-            $table->foreign('idproductolocal')->references('id')->on('productolocal');
+            $table->foreign('idprodnegocios')->references('id')->on('prodnegocios');
 
         });
     }

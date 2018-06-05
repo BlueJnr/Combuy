@@ -12,30 +12,34 @@
         <div class="col-md-8 col-md-offset-2">
 
             <div class="myform-top">
-                        <h3><br>Datos de mi negocio</h3>    
+                <h3><br>Datos de mi negocio</h3>    
             </div>
                 @if(Session::has('message'))
                     <div class="alert alert-success">
                         {{ Session::get('message') }}
                     </div>
                 @endif
-            <div class="panel-body">
-                <form class="form-horizontal" method="POST" action="{{ route('empresa.store') }}">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <h4>Corrige los siguientes errores:</h4>
+                        <ul>
+                            @foreach ($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div id="opcnegocio">
+                        <button type="button" class="btn btn-dark" id="actnegocio">Actualizar negocio</button>
+                        <button type="button" class="btn btn-dark" id="vernegocio">Ver negocio</button>
+                </div>
+                <br>
+            <div class="panel-body" id="contenedorForm">
+                <form class="form-horizontal" method="post" action="{{ route('empresa.store') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="_token" value="{{csrf_token()}}" id="token">
-                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                        <label for="name" class="col-md-4 control-label">Nombre</label>
-
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                            @if ($errors->has('name'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
+                    
                     <div class="form-group{{ $errors->has('ubicacion') ? ' has-error' : '' }}">
                         <label for="ubicacion" class="col-md-4 control-label">Ubicación</label>
                         <div class="col-md-2">
@@ -44,10 +48,10 @@
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <input id="latitud" type="text" class="form-control" name="latitud" display: "none"; required autofocus>
+                            <input id="latitud" type="text" class="form-control" name="latitud">
                         </div>
                         <div class="col-md-2" >
-                                <input id="longitud" type="text" class="form-control" name="longitud" required autofocus>
+                                <input id="longitud" type="text" class="form-control" name="longitud">
                         </div>
                         
                     </div>
@@ -116,25 +120,31 @@
                             @endif
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('tipo') ? ' has-error' : '' }}">
-                        <label for="tipo" class="col-md-4 control-label">Tipo Negocio</label>
-                            <div class="col-md-4">  
-                                <select id="selectortiponegocio" class="form-control" name="tipoproducto">
-                                    <option disabled selected="selected" value="">Seleccione</option>
-                                    <option value="bodega">BODEGA</option>
-                                    <option value="libreria">LIBRERIA</option> 
-                                </select>
-                            </div>  
-                        <br>
-                    </div>
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <!--BOTON REGISTRAR EN BLADE-->
-                            {!!link_to('#',$title='Registrar', $attributes=['id'=>'registro','class'=>'btn btn-primary'],
-                            $secure=null)!!}
+                            <button type="submit" class="btn btn-success" id="registro">
+                                    Registrar
+                            </button>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="panel-body" id="tablanegocio">
+                <table class="table">
+                    <thead>
+                        <th>Nombre</th>
+                        <th>Ruc</th>
+                        <th>Descripcion</th>
+                        <th>telefono</th>
+                        <th>Apertura</th>
+                        <th>Cierre</th>
+                        
+                    </thead> 
+                    <tbody id="datos">
+                            
+                    </tbody>
+                </table> 
             </div>
         </div>
     </div>
@@ -143,44 +153,69 @@
 
 @section('scripts')
 <script>
-    document.getElementById("latitud").style.display = "none";
-    document.getElementById("longitud").style.display = "none";
-    $("#registro").click(function(){
-  
-        var nom=$("#name").val(); 
-        var lat=$("#latitud").val();
-        var long=$("#longitud").val();
-        var desc=$("#descripcion").val();
-        var telf=$("#telefono").val();
-        var hri=$("#Hora_inicio").val();
-        var hrf=$("#Hora_fin").val();
-        var rc=$("#ruc").val();
-        var tiponegoc= $('#selectortiponegocio option:selected').attr('value');
-
-        var route = "http://localhost/combuy/public/empresa";
-        
+    $(document).ready(function(){
+        $('#contenedorForm').hide();
+        $('#tablanegocio').hide();
+    });
+    $("#actnegocio").click(function(){
+        $('#contenedorForm').show();
+        $('#tablanegocio').hide();
+    });
+    $("#vernegocio").click(function(){ 
+        $('#contenedorForm').hide();
+        $('#tablanegocio').show();
+        Cargartabla();
+    });
+    function Cargartabla(){
+        var route ="{{ url('mostrarnegocio') }}";
         var token=$("#token").val(); 
-        $.ajax({
-            url:route,
-            headers:{'X-CSRF-TOKEN':token},
-            type:'POST',
-            dataType:'json',
-            data:{
-                nombre:nom,
-                latitud:lat,
-                longitud:long,
-                descripcion:desc,
-                telefono:telf,
-                horainicio:hri,
-                horafin:hrf,
-                ruc:rc,
-                tiponegocio:tiponegoc
+        var tablaDatos = $("#datos");
+        
+        $.get(route, function(res){
+            tablaDatos.html('');
+            $(res).each(function(key,value){ 
+                if(value.descripcion==null ||
+                   value.hora_fin==null ||
+                   value.hora_inicio==null || 
+                   value.telefono==null || 
+                   value.ruc==null)
+                {
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                
+                }
+                else{
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+value.descripcion+"</td><td>"+value.telefono+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                
+                }
+           });
+        });
+    }
+    function Eliminar(btn){
+        var identi=btn.value;
+        var route =  "{{ url('eliminarnegocio') }}/"+identi;
+        var token=$("#token").val();
+         $.ajax({
+            url: route,
+            headers: {'X-CSRF-TOKEN': token},
+            type: 'DELETE',
+            dataType: 'json',
+            success: function(){
+                Cargartabla();
+              //  $("#msj-success1").fadeIn();
             }
         });
-    });
+    }
 </script>
-
 <script>
+    document.getElementById("latitud").style.display = "none";
+    document.getElementById("longitud").style.display = "none";
+    document.getElementById("lat").style.display = "none";
+    document.getElementById("long").style.display = "none";
+    $("#registro").click(function(){
+        if(document.getElementById("latitud").value=="" || document.getElementById("longitud").value==""){
+            alert("No ha ingresado una direccion");
+        }
+    });
     $("#guardarmodal").click(function(){
         document.getElementById("latitud").value=document.getElementById("lat").value;
         document.getElementById("longitud").value=document.getElementById("long").value;
@@ -249,7 +284,7 @@
         // Creamos el objeto geodecoder
        var geocoder = new google.maps.Geocoder();
 
-       address = document.getElementById('search').value;
+       address = document.getElementById('Buscar').value;
        if(address!='')
        {
         // Llamamos a la función geodecode pasandole la dirección que hemos introducido en la caja de texto.
