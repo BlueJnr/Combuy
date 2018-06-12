@@ -35,7 +35,7 @@
                     @endif
                     <div id="tiporegistro">
                         <button type="button" class="btn btn-dark" id="proexists">Productos existentes</button>
-                        <button type="button" class="btn btn-dark" id="pronuevos">Productos nuevos</button>
+                        <button type="button" class="btn btn-dark" id="pronuevos">Sugerencias</button>
                         <button type="button" class="btn btn-dark" id="verproductos">Ver Productos</button>
                         
                     </div>
