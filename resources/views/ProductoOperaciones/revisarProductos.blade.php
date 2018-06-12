@@ -14,10 +14,12 @@
                       <h3><br>Revisión de productos</h3>
         </div>
         <div class="col-md-4">
-          <button id="bodega" class="btn btn-default btn-tiponegocio" id="bodega" value="bodega">BODEGAS</button>
+          <button id="bodega" class="btn btn-default btn-tiponegocio" id="bodega" value="bodega">Bodegas</button>
+          <button name="Librerias" class="btn btn-default btn-establecimiento" id="libreria" value="libreria">Librerias</button>
+        
         </div>
         <div class="col-md-4">
-          <button name="Librerias" class="btn btn-default btn-establecimiento" id="libreria" value="libreria">LIBRERIAS</button>
+        <button OnClick='Redirect();' class='btn btn-info'>Agregar producto</button>
         </div>
         <br><br>
             <div class="panel-body" id="tablaproductos">
@@ -45,12 +47,8 @@
     function Eliminar(btn){
         
         ids=btn.value;
-
-       
-
-
         var identi=ids;
-        var route = "http://localhost/combuy_v1.1/Combuy/public/eliminarproducto/"+identi;
+        var route = "{{ url('eliminarproducto') }}/"+identi;
         var token=$("#token").val();
          $.ajax({
             url: route,
@@ -63,8 +61,11 @@
             }
         });
     }
+    function Redirect() {
+        window.location="{{ url('/producto/create') }}";
+     }
     function cargartabla(){
-        var route = "http://localhost/combuy_v1.1/Combuy/public/mostrarproductos/"+nomtiponegocio;
+        var route = "{{ url('mostrarproductos') }}/"+nomtiponegocio;
         var tablaDatos = $("#datos");
         $("#datos").empty();
         $.get(route, function(res){

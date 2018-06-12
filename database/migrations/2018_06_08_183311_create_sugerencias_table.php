@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductoLocalsTable extends Migration
+class CreateSugerenciasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateProductoLocalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('productolocal', function (Blueprint $table) {
+        Schema::create('sugerencias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nomproducto',40);
             $table->string('descripcion',200);
-            $table->string('etiqueta',50);
-            
+
             $table->integer('idtipolocalproducto')->unsigned();
             $table->integer('idtipoproducto')->unsigned();
-
+           
             $table->foreign('idtipolocalproducto')->references('id')->on('tipolocalproducto');
             $table->foreign('idtipoproducto')->references('id')->on('tipoproducto');
-
+       
         });
     }
 
@@ -35,6 +34,6 @@ class CreateProductoLocalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ProductoLocal');
+        Schema::dropIfExists('sugerencias');
     }
 }

@@ -33,6 +33,7 @@
                 <div id="opcnegocio">
                         <button type="button" class="btn btn-dark" id="actnegocio">Actualizar negocio</button>
                         <button type="button" class="btn btn-dark" id="vernegocio">Ver negocio</button>
+                        <button type="button" class="btn btn-dark" id="verproductos">Ver productos</button>
                 </div>
                 <br>
             <div class="panel-body" id="contenedorForm">
@@ -166,6 +167,9 @@
         $('#tablanegocio').show();
         Cargartabla();
     });
+    $("#verproductos").click(function(){ 
+        Redirectproductos();
+    });
     function Cargartabla(){
         var route ="{{ url('mostrarnegocio') }}";
         var token=$("#token").val(); 
@@ -180,16 +184,23 @@
                    value.telefono==null || 
                    value.ruc==null)
                 {
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-info'>Agregar producto"+"</td></tr>");
                 
                 }
                 else{
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+value.descripcion+"</td><td>"+value.telefono+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+value.descripcion+"</td><td>"+value.telefono+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-info'>Agregar producto"+"</td></tr>");
                 
                 }
            });
         });
     }
+    
+    function Redirect() {
+        window.location="{{ url('/producto/create') }}";
+     }
+     function Redirectproductos() {
+        window.location="{{ url('/producto') }}";
+     }
     function Eliminar(btn){
         var identi=btn.value;
         var route =  "{{ url('eliminarnegocio') }}/"+identi;
@@ -210,10 +221,10 @@
     document.getElementById("latitud").style.display = "none";
     document.getElementById("longitud").style.display = "none";
     document.getElementById("lat").style.display = "none";
-    document.getElementById("long").style.display = "none";
+    document.getElementById("long").style.display = "none"; 
     $("#registro").click(function(){
         if(document.getElementById("latitud").value=="" || document.getElementById("longitud").value==""){
-            alert("No ha ingresado una direccion");
+            
         }
     });
     $("#guardarmodal").click(function(){
@@ -227,6 +238,7 @@
        marker : false;
        var coords = {};
        initMap = function() {
+        document.getElementById("search").placeholder = "Ingrese dirección";
          //usamos la API para geolocalizar el usuario
             navigator.geolocation.getCurrentPosition(
               function (position){
@@ -284,7 +296,8 @@
         // Creamos el objeto geodecoder
        var geocoder = new google.maps.Geocoder();
 
-       address = document.getElementById('Buscar').value;
+       address = document.getElementById('search').value;
+       
        if(address!='')
        {
         // Llamamos a la función geodecode pasandole la dirección que hemos introducido en la caja de texto.

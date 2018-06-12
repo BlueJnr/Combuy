@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoLocal extends Model
 {
   protected $table="productolocal";
-  protected $fillable=['nomproducto','descripcion','idlocalnegocio','idtipoproducto','idmarca'];
+  protected $fillable=['nomproducto','descripcion','etiqueta','idlocalnegocio','idtipoproducto'];
   protected $primaryKey="id";
   public $timestamps=false;
   public function pedidoproducto(){

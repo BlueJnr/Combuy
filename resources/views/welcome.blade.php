@@ -74,7 +74,9 @@
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
-                    @if (Auth::check())
+                    @if (Auth::check() && Auth::user()->role=='admin')
+                        <a href="{{ url('/admin') }}">Inicio</a>
+                    @elseif (Auth::check() && Auth::user()->role=='user')
                         <a href="{{ url('/home') }}">Inicio</a>
                     @else
                     <a href="{{ route('login') }}">Iniciar Sesión</a>

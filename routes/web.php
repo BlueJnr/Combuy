@@ -17,25 +17,43 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('/homeservicios', 'HomeServiciosController@index');
 
-//EMPRESA
-Route::resource('empresa','infoempresaController');
-Route::get('mostrarnegocio','infoempresaController@revisarnegocio');
 
-Route::resource('producto','productoController');
-//MOSTRAR PARA REGISTRO
-Route::get('negocioproducto/{nom}','productoController@selecionnegocio');
-//REVISAR O MOSTRAR
-Route::get('mostrarproductos/{nom}','productoController@revisarproductos');
-//REGISTRO
-Route::post('productos','productoController@registro')->name('productos.registro');
-Route::get('registroproducto','productoController@registrarproducto');  
-//ELIMINAR
-Route::delete('eliminarproducto/{id}','productoController@eliminarproducto'); 
-Route::delete('eliminarnegocio/{id}','infoempresaController@eliminarnegocio'); 
 
-//Route::get('productos','productoController@revisarproductos')->name('revisarproductos');
+
+//ADMINISTRADOR
+
+Route::group([
+    'middleware' => [
+        'admin',
+    ],
+], function() {
+    Route::resource('admin','administradorController');
+    Route::get('sugerencias/{nom}','administradorController@revisarsugerencias');
+   
+});
+Route::group([
+    'middleware' => [
+        'user',
+    ],
+], function() {
+    Route::get('/home', 'HomeController@index');
+    //EMPRESA
+    Route::resource('empresa','infoempresaController');
+    Route::get('mostrarnegocio','infoempresaController@revisarnegocio');
+    //PRODUCTOS
+    Route::resource('producto','productoController');
+    //MOSTRAR PARA REGISTRO
+    Route::get('negocioproducto/{nom}/{page?}','productoController@selecionnegocio');
+    //REVISAR O MOSTRAR
+    Route::get('mostrarproductos/{nom}','productoController@revisarproductos');
+    //REGISTRO
+    Route::post('productos','productoController@registro')->name('productos.registro');
+    Route::get('registroproducto','productoController@registrarproducto');  
+    //ELIMINAR
+    Route::delete('eliminarproducto/{id}','productoController@eliminarproducto'); 
+    Route::delete('eliminarnegocio/{id}','infoempresaController@eliminarnegocio'); 
+});
+
 
 

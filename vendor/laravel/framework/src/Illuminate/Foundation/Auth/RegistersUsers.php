@@ -35,17 +35,13 @@ trait RegistersUsers
     {
         
         $this->validator($request->all())->validate();
-        
-       
-        
-
         //AUMENTADO NO DE LARAVEL , SOLO EL RETURN ES DE LARAVEL------------------------------
         $admnegocio=new AdmiNegocio();
         $localnegocio=new LocalNegocio();
         $tiponegoci=new TipoNegocio();
         $tiponegoci=DB::table('tiponegocio')->select('id','nombre')->where('nombre',$request->tipo_negocio)->first();
         $localnegoci=DB::table('localnegocio')->where('nombrenegocio',$request->nombrenegocio)->exists();
-       
+        
         if($localnegoci==false){
             event(new Registered($user = $this->create($request->all())));
         
@@ -65,21 +61,11 @@ trait RegistersUsers
             $admnegocio->idusuario=auth()->user()->id;
             $admnegocio->idlocalnegocio=$localnegocio->id;
             $admnegocio->save();
+            Session::flash('message', 'Registrado correctamente');
+            return $this->registered($request, $user)
+                            ?: redirect($this->redirectPath());
             
-            
-            if($request->tipo_negocio=='producto'){
-                Session::flash('message', 'Registrado correctamente');
-                return $this->registered($request, $user)
-                            ?: redirect($this->redirectPath_Ruta('/home'));
-            }
-            else if($request->tipo_negocio=='servicio'){
-                Session::flash('message', 'Registrado correctamente');
-                return $this->registered($request, $user)
-                            ?: redirect($this->redirectPath_Ruta('/homeservicios'));
-            }
         }else{
-           /* return $this->registered($request, $user)
-                            ?: redirect($this->redirectPath_Ruta('/register'));*/
 
             Session::flash('message', 'Ya existe un negocio con ese nombre');
             return view('auth.register');

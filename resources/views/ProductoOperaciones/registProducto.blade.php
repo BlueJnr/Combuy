@@ -14,14 +14,15 @@
                 
                     <div class="myform-top">
                           <h3>Registro de Productos</h3>
-                  </div>
+                    </div>
+                    <div id="message-success" class="alert alert-success alert-dismissible" role="alert" style="display:none">
+                        <strong>Se agregó el producto correctamente.</strong>
+                    </div>
                     @if(Session::has('message'))
-
-                          <div class="alert alert-success">
-                              {{ Session::get('message') }}
-                          </div>
-
-                    @endif
+                    <div class="alert alert-success">
+                        {{ Session::get('message') }}
+                    </div>
+                @endif
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <h4>Corrige los siguientes errores:</h4>
@@ -31,10 +32,11 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
                     <div id="tiporegistro">
                         <button type="button" class="btn btn-dark" id="proexists">Productos existentes</button>
                         <button type="button" class="btn btn-dark" id="pronuevos">Productos nuevos</button>
+                        <button type="button" class="btn btn-dark" id="verproductos">Ver Productos</button>
                         
                     </div>
                     <br>
@@ -52,8 +54,8 @@
                             <div class="col-md-6">
                                 <select id="selectortiponegocio" class="form-control" name="tiponego" required>
                                     <option disabled selected="selected" value="">--Seleccione--</option>
-                                    <option value="bodega">BODEGA</option>
-                                    <option value="libreria">LIBRERIA</option>
+                                    <option value="bodega">bodega</option>
+                                    <option value="libreria">libreria</option>
                                 </select>
                             </div>
                             <br><br><br>
@@ -104,18 +106,9 @@
                         </form>
                     </div>
                 <div class="panel-body" id="tablaproductos">
-                    <table class="table">
-                        <thead>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Tipo de producto</th>
-                            <th></th>
-                        </thead> 
-                        <tbody id="datos">
-                             
-                        </tbody>
-                    </table>
-                    
+                   <div id="lista-producto">
+
+                   </div>
                 </div>
         </div>
     </div>
@@ -129,28 +122,41 @@
         $('#tipoempresa').hide();
         $('#selectortipo').hide();
     });
+    $("#verproductos").click(function(){ 
+        Redirectproductos();
+    });
+    function Redirectproductos() {
+        window.location="{{ url('/producto') }}";
+     }
 </script>
 <script>
-    var ids;
+    var id_global;
     var nomtiponegocio;
-    var array_datos=[];
-    function Cargartabla(){
-        var route = "{{ url('negocioproducto') }}/"+nomtiponegocio;
-        var token=$("#token").val(); 
-        var tablaDatos = $("#datos");
-        
-        $.get(route, function(res){
-            tablaDatos.html('');
-            $(res).each(function(key,value){   
-                console.log(key);
-            tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.descripcion+"</td><td>"+value.nomtipo+"</td><td>"+"<button value="+value.id+" OnClick='Mostrar(this);'  data-toggle='modal' data-target='#myModal' class='btn btn-success'>agregar"+"</td><td>"+"<button value="+value.id+" id='boton' class='btn btn-danger'>boton"+"</td></tr>");
-            array_datos[key]=value.id;
-            });
+    var listaproductos=function(){
+        $.ajax({
+            type:'get',
+            url:"{{ url('negocioproducto') }}/"+nomtiponegocio,
+            success: function(data){
+                $('#lista-producto').empty().html(data);
+            }
         });
     }
-    function Mostrar(btn){
-        ids=btn.value;
+    $(document).on("click",".pagination li a",function(e){
+        e.preventDefault();
+        var url=$(this).attr("href");
+         $.ajax({
+            type:'get',
+            url:url,
+            success: function(data){
+                $('#lista-producto').empty().html(data);
+            }
+        });
+
+    });
+    function Mostrar(id){
+        id_global=id;
     }
+   
     $("#proexists").on( "click", function() {
         $('#tipoempresa').show();
         $('#contenedorForm').hide();
@@ -158,16 +164,17 @@
     $("#bodega").on( "click", function() {
         $('#tablaproductos').show();
         nomtiponegocio=$("#bodega").val();
-        Cargartabla();
+        listaproductos();
+       
     });
     $("#libreria").on( "click", function() {
         $('#tablaproductos').show();
         nomtiponegocio=$("#libreria").val();
-        Cargartabla();
+        listaproductos();
     });
     $("#registrarmodal").click(function(){
        
-        var identi=ids;
+        var identi=id_global;
         var prec=$("#precio").val(); 
         var stoc=$("#stock").val();
         var route ="{{ url('productos') }}";
@@ -178,15 +185,33 @@
             headers:{'X-CSRF-TOKEN':token},
             type:'POST',
             dataType:'json',
-            data:{
-                id:identi,
-                precio:prec,
-                stock:stoc
+            data:{_token: token, precio: prec, stock: stoc , id:identi},
+            success: function(data){
+              if(data.success=='true'){
+                  $("#myModal").modal('toggle');
+                  $("#message-success").fadeIn();
+              }else if(data.success=='false'){
+                  $("#message-success2").fadeIn();
+               
+              }
+              else if(data.errors) {
+                    if(data.errors.precio){
+                        $('#precio-error').html(data.errors.precio[0] );
+                    }
+                    if(data.errors.stock){
+                        $('#stock-error').html(data.errors.stock[0] );
+                    }
+                }
             },
-            success: function(){
-               // $("#myModal").modal('toggle');
+            error: function(data){
+                if(data.status==422){
+                  console.clear();
+              }
             }
         });
+    });
+    $("myModal").on("hidden.bs.modal",function(){
+        $("#message-success2").fadeOut()
     });
 </script>
 <script>
@@ -199,5 +224,6 @@
         document.getElementById("selectortiponegocio").selectedIndex=0;
         document.getElementById("selectortipoproducto").selectedIndex=0;
 	});
+    
 </script>
 @endsection

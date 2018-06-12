@@ -8,6 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="image/favicon_logo.ico" rel="icon">
+    
     <title>COMBUY</title>
 
     {!!Html::style('css/app.css')!!}
@@ -33,17 +34,8 @@
               <li class="l1">
                   <a href="{{ url('/') }}" ><span class=" span1"><i  class="icon icon-home"></i></span>Inicio</a>
               </li>
-              <li class="l1">
-                  <a href="#" ><span class=" span2 "><i class="icon-user-tie"></i></span>Profesionales</a>
-                  <ul class="ul2">
-                      <li class="l2 ">
-                          <a href="#" > Ingresar </a>
-                      </li>
-                      <li class="l2">
-                          <a href="#" > Revisar </a>
-                      </li>
-                  </ul>
-              </li>
+              
+            
               <li class="l1">
                   <a href="#" >
                       <span class="span3"><i class="icon-paste"></i></span>Inventario</span>
@@ -66,14 +58,9 @@
                   </ul>
               </li>
               <li class="l1">
-                  <a href="#"><span class="span4"><i class=" icon icon-cart"></i></span>Pedidos</a>
-              </li>
-              <li class="l1">
                   <a href="#" ><span class="span5"><i class=" icon icon-happy"></i></span>Usuario</a>
                   <ul class="ul2">
-                      <li class="l2 submenu">
-                          <a href="{{ url('/home') }}" >Mi cuenta</a>
-                      </li>
+                      
                       <li class="l2">
                           <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();

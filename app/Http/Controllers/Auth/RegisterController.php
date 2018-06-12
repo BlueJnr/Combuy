@@ -52,14 +52,31 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'dni' => 'required|string|max:255',
+        
+        $reglas = [
+            'name' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
+            'lastname' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
+            'dni' => ['required','min:8','max:8','regex:/^[0-9]+$/','unique:users'],
             'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'required|string|max:50|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+          ]; 
+          $messages = [
+            'dni.regex' => 'Formato DNI incorrecto.',
+            'dni.unique' => 'DNI ya registrado, porfavor ingrese otro.',
+            'dni.max' => 'DNI debe ser de 8 números',
+            'dni.min' => 'DNI debe ser de 8 números',
+            'name.max' => 'El nombre es muy grande.',
+            'name.regex' => 'Formato de nombre incorrecto.',
+            'name.string' => 'El nombre no puede llevar números.',
+            'lastname.regex' => 'Formato de apellido incorrecto.',
+            'lastname.max' => 'El apellido es muy grande.',
+            'email.unique' => 'Email ya registrado,porfavor ingrese otro.',
+            'username.unique' => 'Usuario ya registrado,porfavor ingrese otro.',
+            'username.max' => 'El nombre de usuario es muy grande',
+            'password.min' => 'La contraseñana debe tener minimo 6 caraceteres.',
+        ];
+        return Validator::make($data,$reglas,$messages);
     }
 
     /**
@@ -73,6 +90,7 @@ class RegisterController extends Controller
         //IR A RegistersUsers donde se agregó los demos campos
         return User::create([
             'username' => $data['username'],
+            'role' =>'user',
             'password' => bcrypt($data['password']),
             'name' => $data['name'],
             'lastname' => $data['lastname'],

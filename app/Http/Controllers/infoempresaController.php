@@ -56,7 +56,7 @@ class infoempresaController extends Controller
       $reglas = [
         'latitud' => 'max:30',
         'longitud' => 'max:30',
-        'telefono' => ['required','min:9','max:9','regex:/^[9|6|7][0-9]{8}$/'],
+        'telefono' => ['required','min:9','max:9','regex:/^[9][0-9]{8}$/'],
         'descripcion' => 'required|max:50',
         'Hora_inicio' => ['required','min:4','max:5','regex:/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/'],
         'Hora_fin' => ['required','min:4','max:5','regex:/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/'],

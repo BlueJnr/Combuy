@@ -138,10 +138,10 @@
                         </div>
                        
                         <div class="my-formulario">
-                            <input type="radio" name="tipo_negocio" id="solo-prod" value="producto">
-                            <label for="solo-prod">Negocio de productos </label><br>
-                            <input type="radio" name="tipo_negocio" id="ser-prod" value="servicio">
-                            <label for="ser-prod">Negocio de servicios</label>
+                            <input type="radio" name="tipo_negocio" id="solo-prod" value="bodega">
+                            <label for="solo-prod">Bodega </label><br>
+                            <input type="radio" name="tipo_negocio" id="ser-prod" value="bodega">
+                            <label for="ser-prod">Libreria</label>
                         </div>
                             
                         <div class="form-group">
