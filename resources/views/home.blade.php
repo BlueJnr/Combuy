@@ -17,22 +17,14 @@
         <div class="caja">
             <h3>Información Personal</h3>
             <p class="pdiv">
-                Velit incurreret quibusdam. Quo ut despicationes. Officia do litteris. Nisi ut
-                appellat. Hic te velit singulis, dolor admodum transferrem, ut offendit id
-                eiusmod, se fore fabulas iis quae ad excepteur se occaecat o cernantur ita
-                eiusmod nulla tempor incididunt iis pariatur legam nostrud laborum. Sint sed
-                ullamco, e legam expetendis tractavissent.
+               
             </p>
             <button type="submit" class="bdiv ">Editar</button>
         </div>
         <div class="caja">
             <h3>Información de mi negocio</h3>
             <p class="pdiv">
-                Velit incurreret quibusdam. Quo ut despicationes. Officia do litteris. Nisi ut
-                appellat. Hic te velit singulis, dolor admodum transferrem, ut offendit id
-                eiusmod, se fore fabulas iis quae ad excepteur se occaecat o cernantur ita
-                eiusmod nulla tempor incididunt iis pariatur legam nostrud laborum. Sint sed
-                ullamco, e legam expetendis tractavissent.
+                
             </p>
             <a href="{{ url('empresa')}}">
             <button type="submit" class="bdiv ">Editar</button>

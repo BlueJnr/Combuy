@@ -68,6 +68,7 @@ class administradorController extends Controller
         $productolocal=new ProductoLocal();
         $sugerencia=new sugerencias();
         $producto=new ProductoLocal();
+       
 
         $reglas = [
             'etiqueta' => 'required|max:50',
@@ -80,15 +81,17 @@ class administradorController extends Controller
         $validator = Validator::make($request->all(),$reglas,$messages);
         
         if ($validator->passes()){
-            $idnegocioactual=DB::table('admnegocio')
-            ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-            ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
-            ->first();
-
             $tipolocalproducto=DB::table('sugerencias')
             ->where('id',$request->id)
             ->first();
-
+            $idnegocioactual=DB::table('admnegocio')
+                ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+                ->select('users.id','users.email')->where('admnegocio.idlocalnegocio', $tipolocalproducto->idlocalnegocio)
+                ->first();
+               
+            $email=$idnegocioactual->email;
+           
+            
             $dataemail=array(
                 'name'=>"Curso laravel",
             );
@@ -99,6 +102,7 @@ class administradorController extends Controller
             if($existente){
                 return response()->json(['success' => 'false']);
             }else{
+                
                 $producto->nomproducto=$tipolocalproducto->nomproducto;
                 $producto->descripcion=$tipolocalproducto->descripcion;
                 $producto->idtipolocalproducto=$tipolocalproducto->idtipolocalproducto;
@@ -106,9 +110,10 @@ class administradorController extends Controller
                 $producto->etiqueta=$request->etiqueta;
                 $producto->save();
 
-                Mail::send('mail.mail',$dataemail,function($msj){
-                    $msj->from('juanjhair16@gmail.com','Curso laravel');
-                    $msj->to('juanjhair16@gmail.com')->subject('test email curso laravel');
+
+                Mail::send('mail.mail',['email' => $idnegocioactual],function($msj) use ($idnegocioactual){
+                    $msj->from('admcombuy@gmail.com','Combuy');
+                    $msj->to($idnegocioactual->email)->subject('Correo de confirmación');
                 });
 
                 $sugerencia=DB::table('sugerencias')
