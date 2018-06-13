@@ -22,12 +22,16 @@
 
 <body>
   <header>
+    <div class="logo">
+        <a href="{{ url('/') }}" >
+            <span>
+                <i  class="icon icon-rocket">
+                </i>
+            </span>COMBUY
+        </a>
+    </div>
 
-  <div class="logo">
-      <a href="{{ url('/') }}" >
-        COMBUY
-      </a>
-  </div>
+  
   
   <div class="nav">
       <nav class="navbar navbar-static-top" role="navigation">
