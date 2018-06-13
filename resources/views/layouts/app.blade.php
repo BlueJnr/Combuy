@@ -9,12 +9,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="image/favicon_logo.ico" rel="icon">
     <title>COMBUY</title>
-
+    
     {!!Html::style('css/app.css')!!}
     {!!Html::style('css/bootstrap.min.css')!!}
-    {!!Html::style('css/cuenta.css')!!}
+    {!!Html::style('css/cuentas2.css')!!}
     {!!Html::style('css/style.css')!!}
     {!!Html::style('css/reg_ubicacion.css')!!}
+    
+   
 
 </head>
 
@@ -34,30 +36,15 @@
                   <a href="{{ url('/') }}" ><span class=" span1"><i  class="icon icon-home"></i></span>Inicio</a>
               </li>
               <li class="l1">
-                  <a href="#" ><span class=" span2 "><i class="icon-user-tie"></i></span>Profesionales</a>
-                  <ul class="ul2">
-                      <li class="l2 ">
-                          <a href="#" > Ingresar </a>
-                      </li>
-                      <li class="l2">
-                          <a href="#" > Revisar </a>
-                      </li>
-                  </ul>
+                 
               </li>
               <li class="l1">
                   <a href="#" >
-                      <span class="span3"><i class="icon-paste"></i></span>Inventario</span>
+                      <span class="span3"><i class="icon-paste"></i></span>Productos</span>
                   </a>
                   <ul class="ul2">
-                      <li class="l2 submenu">
-                          <a href="#" >Ingresar</a>
-                          <ul class="ul3 children">
-
-                              <li class="l2">
-                                  <a href="{{ url('/producto/create') }}" >Productos</a>
-                              </li>
-
-                          </ul>
+                      <li class="l2">
+                           <a href="{{ url('/producto/create') }}" >Ingresar</a>
                       </li>
                       <li class="l2">
                           <a href="{{ url('/producto') }}">Revisar </span>

@@ -103,18 +103,16 @@ class administradorController extends Controller
                 return response()->json(['success' => 'false']);
             }else{
                 
+                Mail::send('mail.mail',['email' => $idnegocioactual],function($msj) use ($idnegocioactual){
+                    $msj->from('admcombuy@gmail.com','Combuy');
+                    $msj->to($idnegocioactual->email)->subject('Correo de confirmación');
+                });
                 $producto->nomproducto=$tipolocalproducto->nomproducto;
                 $producto->descripcion=$tipolocalproducto->descripcion;
                 $producto->idtipolocalproducto=$tipolocalproducto->idtipolocalproducto;
                 $producto->idtipoproducto=$tipolocalproducto->idtipoproducto;
                 $producto->etiqueta=$request->etiqueta;
                 $producto->save();
-
-
-                Mail::send('mail.mail',['email' => $idnegocioactual],function($msj) use ($idnegocioactual){
-                    $msj->from('admcombuy@gmail.com','Combuy');
-                    $msj->to($idnegocioactual->email)->subject('Correo de confirmación');
-                });
 
                 $sugerencia=DB::table('sugerencias')
                 ->where('id',$request->id)

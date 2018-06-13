@@ -38,18 +38,12 @@
             
               <li class="l1">
                   <a href="#" >
-                      <span class="span3"><i class="icon-paste"></i></span>Inventario</span>
+                      <span class="span3"><i class="icon-paste"></i></span>Productos</span>
                   </a>
                   <ul class="ul2">
                       <li class="l2 submenu">
-                          <a href="#" >Ingresar</a>
-                          <ul class="ul3 children">
-
-                              <li class="l2">
-                                  <a href="{{ url('/producto/create') }}" >Productos</a>
-                              </li>
-
-                          </ul>
+                          <a href="{{ url('/producto/create') }}" >Ingresar</a>
+                          
                       </li>
                       <li class="l2">
                           <a href="{{ url('/producto') }}">Revisar </span>
@@ -58,7 +52,7 @@
                   </ul>
               </li>
               <li class="l1">
-                  <a href="#" ><span class="span5"><i class=" icon icon-happy"></i></span>Usuario</a>
+                  <a href="#" ><span class="span5"><i class=" icon icon-happy"></i></span>Admin</a>
                   <ul class="ul2">
                       
                       <li class="l2">

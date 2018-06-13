@@ -38,6 +38,9 @@ Route::group([
     ],
 ], function() {
     Route::get('/home', 'HomeController@index');
+    //USUARIO
+    Route::resource('usuario','usuarioController');
+    Route::post('usuarioedit','usuarioController@usuarioedit')->name('usuarioedit');;
     //EMPRESA
     Route::resource('empresa','infoempresaController');
     Route::get('mostrarnegocio','infoempresaController@revisarnegocio');

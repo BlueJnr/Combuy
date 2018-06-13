@@ -104,7 +104,7 @@ class productoController extends Controller
             'stock.regex' => 'Formato de stock incorrecto.',
             'stock.max' => 'Cantidad de stock muy grande por unidad de producto.',
         ];
-           // $validacion=$this->validate($request,$reglas,$messages);
+           
             
             $validator = Validator::make($request->all(),$reglas,$messages);
             

@@ -1,0 +1,58 @@
+*{
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+}
+
+.slider-wrap{
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.slider-container{
+	position: absolute;
+	top: 50%;
+	margin-top: -148px;
+	z-index: 999;
+	width: 400px;
+}
+
+.form-title{
+	width: 100%;
+	padding: 12px;
+	background: #2D99CC;
+}
+
+.form-title h1{
+	font-family: "Open sans";
+	font-size: 25px;
+	font-weight: 200;
+	text-align: center;
+	color: #fff;
+}
+
+.slider-form{
+	width: 100%;
+	padding: 0px 50px;
+}
+
+.slider-form input[type=text],
+.slider-form input[type=email],
+.slider-form input[type=password]{
+	width: 100%;
+	padding: 8px;
+}
+
+.slider-form input[type=button]{
+	width: 100px;
+	padding: 5px;
+	margin-top: 10px;
+	border: none;
+	background: #2D99CC;
+	color: #fff;
+	cursor:pointer;
+}

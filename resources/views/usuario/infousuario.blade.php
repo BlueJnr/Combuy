@@ -1,50 +1,74 @@
-
-@extends('layouts.navbar_admin')
+@extends('layouts.app')
 
 
 @section('content')
 
 {!!Html::style('css/reg_ubicacion.css')!!}
-@include('administrador.modaladmin')
-@include('administrador.modaladmineditar')
+{!!Html::style('css/style.css')!!}
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-                
-                    <div class="myform-top">
-                          <h3> Sugerencias pendientes</h3>
-                    </div>
-                    <div id="message-success" class="alert alert-success alert-dismissible" role="alert" style="display:none">
-                        <strong>Se agregó la sugerencia correctamente.</strong>
-                    </div>
-                    <div id="message-eliminar" class="alert alert-success alert-dismissible" role="alert" style="display:none">
-                        <strong>Se eliminó la sugerencia correctamente.</strong>
-                    </div>
-                    <div id="message-editar" class="alert alert-success alert-dismissible" role="alert" style="display:none">
-                        <strong>Se editó la sugerencia correctamente.</strong>
-                    </div>
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <h4>Corrige los siguientes errores:</h4>
-                        <ul>
-                            @foreach ($errors->all() as $message)
-                                <li>{{ $message }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                     @endif
-                    
-                <br>
-                <div id="tipoempresa">
-                    <button type="button" class="btn btn-dark" id="combo" value="combo">COMBO</button>
-                    <button type="button" class="btn btn-dark" id="unidad" value="unidad">UNIDAD</button>
+        <div class="myform-top">
+                        <h3>Datos Personales</h3>
                 </div>
-                    
-                <div class="panel-body" id="tablasugerencia">
-                    <div id="lista-sugerencia">
-                        
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        {{ Session::get('message') }}
                     </div>
+                @endif
+                <div class="myform-bottom">
+                    <form role="form" action="{{ route('usuarioedit')}}" method="post" class="">
+                    {{ csrf_field() }}
+                        <div class="form-group{{ $errors->has('form-firtsname') ? ' has-error' : '' }}">
+
+                             <div class="gr1 form-group">
+                                <input type="text" name="name" value="{{ Auth::user()->name }}" placeholder="Nombres..." class="form-control" id="name" required autofocus>
+                            </div>
+                            @if ($errors->has('name'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                            @endif
+
+                        </div>
+                        <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
+
+                            <div class="gr1 form-group">
+                            <input type="text" name="lastname" value="{{ Auth::user()->lastname }}" placeholder="Apellidos..." class="form-control" id="lastname" required>
+                             </div>
+                            @if ($errors->has('lastname'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('lastname') }}</strong>
+                                </span>
+                            @endif
+
+                        </div>
+                        <div class="form-group{{ $errors->has('dni') ? ' has-error' : '' }}">
+
+                            <div class="gr1 form-group">
+                            <input type="text" readonly="readonly" name="dni" value="{{ Auth::user()->dni }}" placeholder="DNI..." class="form-control" id="dni" required>
+                            </div>
+                            @if ($errors->has('dni'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('dni') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
+                            <div class="gr1 form-group">
+                            <input type="email" name="email" value="{{ Auth::user()->email }}" placeholder="Email..." class="form-control" id="email" required>
+                            </div>
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <button type="submit" class="mybtn">Guardar cambios</button>
+                    </form>
                 </div>
         </div>
     </div>
@@ -52,8 +76,14 @@
 @endsection
 @section('scripts')
 <script>
+
     $(document).ready(function(){
-        $('#tablasugerencia').hide();
+        
+        $("#form-firtsname").val();
+
+
+
+
     });
 </script>
 <script>
