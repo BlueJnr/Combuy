@@ -9,7 +9,7 @@
 
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500" >
-      <link rel="stylesheet" href="css/registro.css">
+      <link rel="stylesheet" href="css/registros.css">
       <link href="image/favicon_logo.ico" rel="icon">
     </head>
 

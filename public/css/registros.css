@@ -116,7 +116,6 @@ input[type="radio"]:checked + label {
 
 /* Contenidos y Formulario*/
 .my-content {
-  padding: 100px 0 170px 0;
     float: left;
     width: 50%;
     height:100%;;

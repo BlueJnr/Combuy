@@ -47,11 +47,8 @@
            
         </div>
         <div class="caja">
-            <h2>Información de mi negocio</h2>
-            <h2 class="h2">NOMBRE</h2>
-            <h2>{{ Auth::user()->name }}</h2>
-            <h2 class="h2">APELLIDO</h2>
-            <h2>{{ Auth::user()->lastname }}</h2>
+            <h3>Información de mi negocio</h3>
+            
             <p class="pdiv">
                 
             </p>
