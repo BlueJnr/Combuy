@@ -39,7 +39,7 @@
                 <div class="col-sm-6 myform-cont" >
                     <div class="myform-top">
                         <div class="col-sm-12 my-sesion" >
-                            <h1> Inicio de sesion </h1>
+                            <h1> INICIO DE SESIÓN </h1>
                         </div>
                         <div class="myform-top-left">
                             <h3>Ingresa a nuestro sitio.</h3>
@@ -82,9 +82,10 @@
                         <div >
                             <h3 >¿No eres miembro?</h3>
                             <a href="{{ route('register') }}" class="my-registro">
-                                     <h3>Registrate ahora</h3>
+                                     <h3>Regístrate ahora</h3>
                             </a>
                         </div>
+                        
                     </div>
                 </div>
             </div>

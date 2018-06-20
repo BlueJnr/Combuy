@@ -15,8 +15,6 @@
     {!!Html::style('css/cuentas2.css')!!}
     {!!Html::style('css/style.css')!!}
     {!!Html::style('css/reg_ubicacion.css')!!}
-    
-   
 
 </head>
 
@@ -91,5 +89,7 @@
     @section('scripts')
 
     @show
+    
+    
 </body>
 </html>

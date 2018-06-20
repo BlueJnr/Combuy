@@ -14,8 +14,8 @@
                       <h3><br>Revisión de productos</h3>
         </div>
         <div class="col-md-4">
-          <button id="bodega" class="btn btn-default btn-tiponegocio" id="bodega" value="bodega">Bodegas</button>
-          <button name="Librerias" class="btn btn-default btn-establecimiento" id="libreria" value="libreria">Librerias</button>
+          <button class="btn btn-default btn-tiponegocio" id="combo" value="combo">Combo</button>
+          <button name="unidad" class="btn btn-default btn-establecimiento" id="unidad" value="unidad">Unidad</button>
         
         </div>
         <div class="col-md-4">
@@ -35,6 +35,11 @@
                   </tbody>
               </table>
             </div>
+    </div>
+    <div class="col-md-4 col-md-offset-10">
+        <a href="{{ url('/home') }}">
+            <button type="button" class="mybtn" >Regresar</button>
+        </a>  
     </div>
 </div>
 @endsection
@@ -81,12 +86,12 @@
             
         });
     }
-    $("#bodega").on( "click", function() {
-        nomtiponegocio=$("#bodega").val();
+    $("#combo").on( "click", function() {
+        nomtiponegocio=$("#combo").val();
         cargartabla();
     });
-    $("#libreria").on( "click", function() {
-        nomtiponegocio=$("#libreria").val();
+    $("#unidad").on( "click", function() {
+        nomtiponegocio=$("#unidad").val();
         cargartabla();
     });
 </script>

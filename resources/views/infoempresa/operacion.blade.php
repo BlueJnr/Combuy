@@ -4,6 +4,8 @@
 @section('content')
 
 {!!Html::style('css/reg_ubicacion.css')!!}
+<script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
+<link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 
 @include('infoempresa.modalregistro')
 
@@ -14,8 +16,9 @@
             <div class="myform-top">
                 <h3><br>Datos de mi negocio</h3>    
             </div>
+               
                 @if(Session::has('message'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" id="message-success">
                         {{ Session::get('message') }}
                     </div>
                 @endif
@@ -29,6 +32,9 @@
                         </ul>
                     </div>
                 @endif
+                <div id="message-eliminar" class="alert alert-success alert-dismissible" role="alert" style="display:none">
+                        <strong>Se eliminaron los datos correctamente.</strong>
+                </div>
 
                 <div id="opcnegocio">
                         <button type="button" class="btn btn-dark" id="actnegocio">Actualizar negocio</button>
@@ -148,6 +154,11 @@
                 </table> 
             </div>
         </div>
+        <div class="col-md-4 col-md-offset-10">
+        <a href="{{ url('/home') }}">
+                    <button type="button" class="mybtn" >Regresar</button>
+            </a>  
+        </div>
     </div>
 </div>
 @endsection
@@ -155,8 +166,12 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
+       
         $('#contenedorForm').hide();
         $('#tablanegocio').hide();
+        setInterval(function(){ 
+            $("#message-success").fadeOut();
+        }, 5000);
     });
     $("#actnegocio").click(function(){
         $('#contenedorForm').show();
@@ -205,16 +220,37 @@
         var identi=btn.value;
         var route =  "{{ url('eliminarnegocio') }}/"+identi;
         var token=$("#token").val();
-         $.ajax({
-            url: route,
-            headers: {'X-CSRF-TOKEN': token},
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(){
-                Cargartabla();
-              //  $("#msj-success1").fadeIn();
+        swal({
+            title: 'Seguro de eliminar?',
+            text: "No podrás revertir esto!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si,eliminarlo!'
+            }).then((result) => {
+                console.log(result.value);
+            if (result.value) {
+                swal(
+                'Eliminado!',
+                'La sugerencia fue borrada.',
+                'success'
+                )
+                $.ajax({
+                    url:route,
+                    headers: {'X-CSRF-TOKEN': token},
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(){
+                        Cargartabla();
+                        $("#message-eliminar").fadeIn();
+                        setInterval(function(){ 
+                                $("#message-eliminar").fadeOut();
+                            }, 5000);
+                    }
+                });
             }
-        });
+        })
     }
 </script>
 <script>

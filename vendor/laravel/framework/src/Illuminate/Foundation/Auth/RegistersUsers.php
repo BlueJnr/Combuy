@@ -61,7 +61,7 @@ trait RegistersUsers
             $admnegocio->idusuario=auth()->user()->id;
             $admnegocio->idlocalnegocio=$localnegocio->id;
             $admnegocio->save();
-            Session::flash('message', 'Registrado correctamente');
+           
             return $this->registered($request, $user)
                             ?: redirect($this->redirectPath());
             

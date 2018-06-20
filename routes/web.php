@@ -17,10 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-
-
-
 //ADMINISTRADOR
 
 Route::group([
@@ -32,15 +28,19 @@ Route::group([
     Route::get('sugerencias/{nom}','administradorController@revisarsugerencias');
    
 });
+
 Route::group([
     'middleware' => [
         'user',
     ],
 ], function() {
-    Route::get('/home', 'HomeController@index');
+    Route::get('/home', 'HomeController@index')->name('home');
     //USUARIO
     Route::resource('usuario','usuarioController');
-    Route::post('usuarioedit','usuarioController@usuarioedit')->name('usuarioedit');;
+    Route::post('usuarioedit','usuarioController@usuarioedit')->name('usuarioedit'); 
+    
+    Route::get('datauser','usuarioController@datauser'); 
+    Route::post('datosusuario','usuarioController@datosusuario')->name('datosusuario'); 
     //EMPRESA
     Route::resource('empresa','infoempresaController');
     Route::get('mostrarnegocio','infoempresaController@revisarnegocio');

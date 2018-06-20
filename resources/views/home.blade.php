@@ -30,7 +30,9 @@
             <img src="image/sidebar_usuario-corporativo.png" >
             <h2 class="h2">USUARIO</h2>
             <h2> {{ Auth::user()->username }}  </h2>
+            <a href="{{ url('/datauser')}}"> 
             <button type="submit" class="bdiv ">Editar</button>
+            </a>
         </div>
         <div class="caja">
             <h2>Información Personal</h2>
@@ -41,7 +43,7 @@
             <p class="pdiv">
                
             </p>
-            <a href="{{ url('usuario')}}">
+            <a href="{{ url('usuario')}}"> 
             <button type="submit" class="bdiv ">Editar</button>
             </a>
            

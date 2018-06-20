@@ -19,7 +19,8 @@
                 font-weight: 1000;
                 height: 100vh;
                 margin: 0;
-
+               
+                background-image: url("image/f1.jpg");
                 background-size: cover;
             }
 
@@ -54,7 +55,7 @@
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
-                font-size: 12px;
+                font-size: 20px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;

@@ -29,9 +29,12 @@ class usuarioController extends Controller
     {
         //
     }
+    public function datauser(){
+        
+        return view('usuario.infocuenta');
+    }
     public function usuarioedit(Request $request)
     {
-       
             $reglas = [
                 'name' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
                 'lastname' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
@@ -55,14 +58,51 @@ class usuarioController extends Controller
             $usuario->fill([
                 'name'=>$request->name,
                 'lastname'=>$request->lastname,
-                'dni'=>$request->dni,
                 'email'=>$request->email,
             ]);
             $usuario->save();
             Session::flash('message','Ha editado correctamente sus datos');
-            return view('usuario.infousuario');
+            return redirect("usuario");
         
     }
+    public function datosusuario(Request $request)
+    {
+      
+            $usuario=User::find(auth()->user()->id);
+            if($usuario->username==$request->username){
+                $reglas = [
+                    'username' => 'required|string|max:50',
+                    'password' => 'required|string|min:6|confirmed',
+                  ]; 
+                $messages = [
+                    'username.max' => 'El nombre de usuario es muy grande',
+                    'username.required' => 'El nombre de usuario es obligatorio',
+                ];
+            }else{
+                $reglas = [
+                    'username' => 'required|string|max:50|unique:users',
+                    'password' => 'required|string|min:6|confirmed',
+                  ]; 
+                $messages = [
+                    'username.unique' => 'Usuario ya registrado,porfavor ingrese otro.',
+                    'username.max' => 'El nombre de usuario es muy grande',
+                ];
+            }
+           
+            $this->validate($request,$reglas,$messages);
+            $usuario=User::find(auth()->user()->id);
+            $usuario->fill([
+                'username'=>$request->username,
+                'password' => bcrypt($request->password),
+            ]);
+            $usuario->save();
+            Session::flash('message','Ha editado correctamente sus datos');
+            return view("usuario.infocuenta");
+            
+       
+        
+    }
+    
 
 
     /**
@@ -107,7 +147,7 @@ class usuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+        
     }
 
     /**

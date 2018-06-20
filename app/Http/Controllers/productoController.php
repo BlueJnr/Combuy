@@ -8,6 +8,7 @@ use App\TipoProd;
 use App\Producto;
 use Session;
 use DB;
+use Alert;
 use App\sugerencias;
 use App\ProductoLocal;
 use App\LocalNegocio;
@@ -47,6 +48,7 @@ class productoController extends Controller
     public function selecionnegocio($tipo)
     {
         
+        
         $idnegocioactual=DB::table('admnegocio')
         ->join('users', 'admnegocio.idusuario', '=', 'users.id')
         ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
@@ -56,7 +58,7 @@ class productoController extends Controller
         ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
         ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
         ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre')
-        ->where('tipolocalproducto.nombre',$tipo)
+        ->where('tipoproducto.nomtipo',$tipo)
         ->paginate(5);
         //return response()->json($productos);
         return view('ProductoOperaciones.listaproductos')->with('productos',$productos);
@@ -69,7 +71,8 @@ class productoController extends Controller
         ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
         ->first();
         
-        $tipolocalproducto=DB::table('tipolocalproducto')->where('nombre',$tipo)->first();
+       
+        $tipoproducto=DB::table('tipoproducto')->where('nomtipo',$tipo)->first();
         
         if($idnegocioactual!=null){
             $productos=DB::table('prodnegocios')
@@ -78,7 +81,7 @@ class productoController extends Controller
             ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
             ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion')
             ->where([
-                ['productolocal.idtipolocalproducto', '=',$tipolocalproducto->id],
+                ['productolocal.idtipoproducto', '=',$tipoproducto->id],
                 ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
             ->get();
             return response()->json($productos);
@@ -181,7 +184,7 @@ class productoController extends Controller
             $sugerencia->idlocalnegocio=$idlocalnegocio->idlocalnegocio;
             $sugerencia->save();
             
-            Session::flash('message','Se ha enviado la sugerencia, Espere');
+            Session::flash('message', 'Se ha enviado la sugerencia');
             return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
         }else{
             return view('ProductoOperaciones.registProducto',compact('tipoproducto'));

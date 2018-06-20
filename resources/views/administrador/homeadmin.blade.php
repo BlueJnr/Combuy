@@ -5,6 +5,9 @@
 @section('content')
 
 {!!Html::style('css/reg_ubicacion.css')!!}
+
+<script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
+<link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 @include('administrador.modaladmin')
 @include('administrador.modaladmineditar')
 
@@ -99,21 +102,42 @@
         
         var identi=id;
         var token=$("#token").val();
-         $.ajax({
-            url:"{{ url('admin') }}/"+identi,
-            headers: {'X-CSRF-TOKEN': token},
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(data){
-                listaproductos();
-                if(data.success=='true'){
-                    $("#message-eliminar").fadeIn();
-                    $("#message-editar").fadeOut();
-                    $("#message-success").fadeOut();
-                }
-                
+        swal({
+            title: 'Seguro de eliminar?',
+            text: "No podrás revertir esto!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si,eliminarlo!'
+            }).then((result) => {
+                console.log(result.value);
+            if (result.value) {
+                swal(
+                'Eliminado!',
+                'La sugerencia fue borrada.',
+                'success'
+                )
+                $.ajax({
+                    url:"{{ url('admin') }}/"+identi,
+                    headers: {'X-CSRF-TOKEN': token},
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(data){
+                        listaproductos();
+                        if(data.success=='true'){
+                            $("#message-eliminar").fadeIn();
+                            $("#message-editar").fadeOut();
+                            $("#message-success").fadeOut();
+                            setInterval(function(){ 
+                                $("#message-eliminar").fadeOut();
+                            }, 5000);
+                        }
+                        
+                    }
+                });
             }
-        });
+        })
     }
     $("#modalactualizar").click(function(){
        var id=$("#id").val();
@@ -139,11 +163,17 @@
                     $("#message-editar").fadeIn();
                     $("#message-eliminar").fadeOut();
                     $("#message-success").fadeOut();
+                    setInterval(function(){ 
+                        $("#message-editar").fadeOut();
+                    }, 5000);
                 }else if(data.success=='false'){
                     $("#message-success2").fadeIn();
                     $("#message-editar").fadeOut();
                     $("#message-eliminar").fadeOut();
                     $("#message-success").fadeOut();
+                    setInterval(function(){ 
+                        $("#message-success2").fadeOut();
+                    }, 7000);
                 
                 }
                 else if(data.errors) {
@@ -184,13 +214,18 @@
                     $("#message-success").fadeIn();
                     $("#message-editar").fadeOut();
                     $("#message-eliminar").fadeOut();
+                    setInterval(function(){ 
+                        $("#message-success").fadeOut();
+                    }, 5000);
                 
                 }else if(data.success=='false'){
                     $("#message-success2").fadeIn();
                     $("#message-editar").fadeOut();
                     $("#message-eliminar").fadeOut();
                     $("#message-success").fadeOut();
-                
+                    setInterval(function(){ 
+                        $("#message-success2").fadeOut();
+                    }, 7000);
                 
                 }
                 else if(data.errors) {

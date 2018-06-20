@@ -5,6 +5,8 @@
 
 {!!Html::style('css/reg_ubicacion.css')!!}
 
+
+
 @include('ProductoOperaciones.modalregistro')
 
 
@@ -19,7 +21,7 @@
                         <strong>Se agregó el producto correctamente.</strong>
                     </div>
                     @if(Session::has('message'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" id="message">
                         {{ Session::get('message') }}
                     </div>
                 @endif
@@ -41,8 +43,8 @@
                     </div>
                     <br>
                     <div id="tipoempresa">
-                        <button type="button" class="btn btn-dark" id="bodega" value="bodega">Bodega</button>
-                        <button type="button" class="btn btn-dark" id="libreria" value="libreria">Libreria</button>
+                        <button type="button" class="btn btn-dark" id="combo" value="combo">Combo</button>
+                        <button type="button" class="btn btn-dark" id="unidad" value="unidad">Unidad</button>
                     </div>
                     <div class="panel-body" id="contenedorForm">
                         <form class="form-horizontal" method="POST" action="{{ route('producto.store') }}">
@@ -111,6 +113,11 @@
                    </div>
                 </div>
         </div>
+        <div class="col-md-4 col-md-offset-10">
+        <a href="{{ url('/home') }}">
+            <button type="button" class="mybtn" >Regresar</button>
+        </a>  
+    </div>
     </div>
 </div>
 @endsection
@@ -121,6 +128,10 @@
         $('#contenedorForm').hide();
         $('#tipoempresa').hide();
         $('#selectortipo').hide();
+        setInterval(function(){ 
+            $("#message").fadeOut();
+        },5000);
+
     });
     $("#verproductos").click(function(){ 
         Redirectproductos();
@@ -151,25 +162,26 @@
                 $('#lista-producto').empty().html(data);
             }
         });
-
     });
     function Mostrar(id){
         id_global=id;
     }
+    
    
     $("#proexists").on( "click", function() {
+        
         $('#tipoempresa').show();
         $('#contenedorForm').hide();
     });
-    $("#bodega").on( "click", function() {
+    $("#combo").on( "click", function() {
         $('#tablaproductos').show();
-        nomtiponegocio=$("#bodega").val();
+        nomtiponegocio=$("#combo").val();
         listaproductos();
        
     });
-    $("#libreria").on( "click", function() {
+    $("#unidad").on( "click", function() {
         $('#tablaproductos').show();
-        nomtiponegocio=$("#libreria").val();
+        nomtiponegocio=$("#unidad").val();
         listaproductos();
     });
     $("#registrarmodal").click(function(){
@@ -190,9 +202,14 @@
               if(data.success=='true'){
                   $("#myModal").modal('toggle');
                   $("#message-success").fadeIn();
+                  setInterval(function(){ 
+                        $("#message-success").fadeOut();
+                    }, 3000);
               }else if(data.success=='false'){
                   $("#message-success2").fadeIn();
-               
+                  setInterval(function(){ 
+                        $("#message-success2").fadeOut();
+                    }, 3000);
               }
               else if(data.errors) {
                     if(data.errors.precio){
