@@ -13,10 +13,11 @@
                 <br>
                 <div>
                     <div class="col-md-9">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="search">
+                        <input class="form-control" type="search" value="" placeholder="Search" aria-label="Search" id="search">
                     </div>
                     <div class="col-md-2.5">
                         <input type="button" value="Buscar Dirección" onClick="getCoords()" class="btn btn-success">
+                    
                     </div>
                 </div>
             </div>

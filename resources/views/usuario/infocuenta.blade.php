@@ -15,7 +15,7 @@
             </div>
             <div id="mensaje">
                 @if(Session::has('message'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" id="message-success">
                         {{ Session::get('message') }}
                     </div>
                 @endif
@@ -24,6 +24,7 @@
                 
                 <form role="form" action="{{ route('datosusuario')}}" method="post" class="">
                 {{ csrf_field() }}
+                    <input type="hidden" name="_token" value="{{csrf_token()}}" id="token">
                     <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
 
                         <input type="text" name="username" value="{{ Auth::user()->username }}" 
@@ -72,6 +73,11 @@
 </div>
 @endsection
 @section('scripts')
+<script>
+        setInterval(function(){ 
+            $("#message-success").fadeOut();
+    }, 3000);
+</script>
 @endsection
 
 

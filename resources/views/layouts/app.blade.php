@@ -15,6 +15,8 @@
     {!!Html::style('css/cuentas2.css')!!}
     {!!Html::style('css/style.css')!!}
     {!!Html::style('css/reg_ubicacion.css')!!}
+    <script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
+    <link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -65,8 +67,7 @@
                       </li>
                       <li class="l2">
                           <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();">
+                            onclick="cerrar_sesion();">
                           Cerrar Sesion</span>
                           </a>
                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -85,6 +86,33 @@
     @yield('content')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        
+        function cerrar_sesion(){
+            event.preventDefault();
+            swal({
+                    title: 'Seguro de cerrar sesion?',
+                    text: "Tendrás que volver a iniciar!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        console.log(result.value);
+                    if (result.value) {
+                        swal(
+                        'Cerrando...',
+                        'Se cerró sesión correctamente.',
+                        'warning'
+                        )
+                        document.getElementById('logout-form').submit();
+                    }
+                })
+        }
+    
+    </script>
 
     @section('scripts')
 
