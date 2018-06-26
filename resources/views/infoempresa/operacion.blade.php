@@ -221,11 +221,11 @@
                    value.telefono==null || 
                    value.ruc==null)
                 {
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+""+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
                 
                 }
                 else{
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+ direccion+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+value.direccion+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
                 
                 }
            });

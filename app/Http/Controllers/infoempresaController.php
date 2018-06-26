@@ -117,7 +117,7 @@ class infoempresaController extends Controller
         
         if($idnegocioactual!=null){
             $negocio=DB::table('localnegocio')
-            ->select('id','nombrenegocio','ruc','descripcion','telefono','hora_inicio','hora_fin')
+            ->select('id','nombrenegocio','ruc','descripcion','telefono','hora_inicio','hora_fin','direccion')
             ->where('id',$idnegocioactual->idlocalnegocio)
             ->get();
             
