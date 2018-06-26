@@ -20,12 +20,17 @@
                 <button name="unidad" class="deslizar" id="unidad" value="unidad">Unidad</button>
             </div>
             
-            <div class="col-md-4">  
+            <div class="col-md-4 mv">  
+                <div class="col-md-4"> 
                 <button OnClick='Redirect();' class="llenar2">Agregar producto</button>
+                </div>
+                <div class="col-md-4"> 
                 <button OnClick='Redirectnegocio();' class="llenar2">Mi negocio</button>
+                </div>
+               
             </div>
-        
-        
+            
+            
         <br><br>
             <div class="panel-body" id="tablaproductos">
               <table class="table" >

@@ -4,7 +4,7 @@
 @section('content')
 
 {!!Html::style('css/reg_ubicacion1.css')!!}
-{!!Html::style('css/tablas.css')!!}
+{!!Html::style('css/reg_producto.css')!!}
 <script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
 <link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 
@@ -39,14 +39,15 @@
 
                 <div id="opcnegocio" class="nego">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" id="actnegocio">Actualizar negocio</button>
+                        <button type="button" class="llenar" id="actnegocio">Actualizar negocio</button>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" id="vernegocio">Mi negocio</button>
+                        <button type="button" class="llenar" id="vernegocio">Mi negocio</button>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-info btn-lg btn-block" id="verproductos">Mis productos</button>
+                        <button type="button" class="llenar" id="verproductos">Mis productos</button>
                     </div>
+                    <br>
             </div>
                 <br>
                 <br>
@@ -170,7 +171,6 @@
                         <th>Direccion</th>
                         <th>Apertura</th>
                         <th>Cierre</th>
-                        <th></th>
                         <th></th>
                         <th></th>
                     </thead> 
