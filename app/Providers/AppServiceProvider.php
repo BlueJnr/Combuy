@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Routing\UrlGenerator;
+use View;
+use DB;
+use Auth;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
             $url->formatScheme('https');
         }
         Schema::defaultStringLength(191);
+
+        
+        
     }
 
     /**
@@ -31,4 +38,5 @@ class AppServiceProvider extends ServiceProvider
             $this->app['request']->server->set('HTTPS',true);
         }
     }
+    
 }

@@ -3,7 +3,7 @@
     <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Completar registro de producto</h4>
+          <h4 class="modal-title" id="myModalLabel">COMPLETAR REGISTRO DE PRODUCTOS</h4>
         </div>
           <div class="modal-body">
               
@@ -27,7 +27,7 @@
                   <div class="modal-footer">
                   </div>
               
-            {!!link_to('#', $title='registrar', $attributes = ['id'=>'registrarmodal', 'class'=>'btn btn-primary'], $secure = null)!!}
+            {!!link_to('#', $title='Registrar', $attributes = ['id'=>'registrarmodal', 'class'=>'btn btn-primary'], $secure = null)!!}
                 
           </div>
         

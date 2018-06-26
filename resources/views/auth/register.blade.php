@@ -9,7 +9,7 @@
 
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500" >
-      <link rel="stylesheet" href="css/registros.css">
+      <link rel="stylesheet" href="css/registre.css">
       <link href="image/favicon_logo.ico" rel="icon">
     </head>
 
@@ -17,8 +17,8 @@
 
 <div class="container-fluid">
 
-  <div class="my-image" style="height:920px;" >
-        <img src="image/registro.jpg" >
+  <div class="my-image" >
+        <img src="image/registre.jpg" >
   </div>
 
   <div class="my-content" >
@@ -28,7 +28,7 @@
         </div>
     @endif
     <div class="col-sm-12  mytitle" >
-        <h1>Formulario de Registro</h1>
+        <h1>FORMULARIO DE REGISTRO</h1>
     </div>
     <div>
     <div class="row">

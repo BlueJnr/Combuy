@@ -2,7 +2,8 @@
 
 @section('content')
 
-{!!Html::style('css/reg_ubicacion.css')!!}
+{!!Html::style('css/reg_ubicacion1.css')!!}
+{!!Html::style('css/reg_producto.css')!!}
 <div id="msj-success" class="alert alert-success" role="alert" style="display:none">
   		<strong> Producto eliminado correctamente.</strong>
 </div>
@@ -13,14 +14,18 @@
         <div class="myform-top">
                       <h3><br>Revisión de productos</h3>
         </div>
-        <div class="col-md-4">
-          <button class="btn btn-default btn-tiponegocio" id="combo" value="combo">Combo</button>
-          <button name="unidad" class="btn btn-default btn-establecimiento" id="unidad" value="unidad">Unidad</button>
         
-        </div>
-        <div class="col-md-4">
-        <button OnClick='Redirect();' class='btn btn-info'>Agregar producto</button>
-        </div>
+            <div class="btntipo2">
+                <button class="deslizar" id="combo" value="combo">Combo</button>
+                <button name="unidad" class="deslizar" id="unidad" value="unidad">Unidad</button>
+            </div>
+            
+            <div class="col-md-4">  
+                <button OnClick='Redirect();' class="llenar2">Agregar producto</button>
+                <button OnClick='Redirectnegocio();' class="llenar2">Mi negocio</button>
+            </div>
+        
+        
         <br><br>
             <div class="panel-body" id="tablaproductos">
               <table class="table" >
@@ -36,11 +41,7 @@
               </table>
             </div>
     </div>
-    <div class="col-md-4 col-md-offset-10">
-        <a href="{{ url('/home') }}">
-            <button type="button" class="mybtn" >Regresar</button>
-        </a>  
-    </div>
+    
 </div>
 @endsection
 @section('scripts')
@@ -68,6 +69,9 @@
     }
     function Redirect() {
         window.location="{{ url('/producto/create') }}";
+     }
+     function Redirectnegocio() {
+        window.location="{{ url('empresa') }}";
      }
     function cargartabla(){
         var route = "{{ url('mostrarproductos') }}/"+nomtiponegocio;

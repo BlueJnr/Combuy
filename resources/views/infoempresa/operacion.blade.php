@@ -3,7 +3,8 @@
 
 @section('content')
 
-{!!Html::style('css/reg_ubicacion.css')!!}
+{!!Html::style('css/reg_ubicacion1.css')!!}
+{!!Html::style('css/tablas.css')!!}
 <script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
 <link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 
@@ -36,16 +37,27 @@
                         <strong>Se eliminaron los datos correctamente.</strong>
                 </div>
 
-                <div id="opcnegocio">
-                        <button type="button" class="btn btn-dark" id="actnegocio">Actualizar negocio</button>
-                        <button type="button" class="btn btn-dark" id="vernegocio">Ver negocio</button>
-                        <button type="button" class="btn btn-dark" id="verproductos">Ver productos</button>
-                </div>
+                <div id="opcnegocio" class="nego">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="actnegocio">Actualizar negocio</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="vernegocio">Mi negocio</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-info btn-lg btn-block" id="verproductos">Mis productos</button>
+                    </div>
+            </div>
+                <br>
                 <br>
             <div class="panel-body" id="contenedorForm">
                 <form class="form-horizontal" method="post" action="{{ route('empresa.store') }}">
+
+
                     {{ csrf_field() }}
                     <input type="hidden" name="_token" value="{{csrf_token()}}" id="token">
+
+                    
                     
                     <div class="form-group{{ $errors->has('ubicacion') ? ' has-error' : '' }}">
                         <label for="ubicacion" class="col-md-4 control-label">Ubicación</label>
@@ -61,6 +73,19 @@
                                 <input id="longitud" type="text" class="form-control" name="longitud">
                         </div>
                         
+                    </div>
+                    <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+                        <label for="direccion" class="col-md-4 control-label">Direccion</label>
+
+                        <div class="col-md-6">
+                            <input id="direccion" type="text" class="form-control" name="direccion" value="{{ old('descripcion') }}" required autofocus>
+
+                            @if ($errors->has('direccion'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('direccion') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                     </div>
                     <div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
                         <label for="descripcion" class="col-md-4 control-label">Descripción</label>
@@ -129,8 +154,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <!--BOTON REGISTRAR EN BLADE-->
-                            <button type="submit" class="btn btn-success" id="registro">
+                            
+                            <button type="submit" class="btn btn-success bv" id="registro">
                                     Registrar
                             </button>
                         </div>
@@ -142,11 +167,12 @@
                     <thead>
                         <th>Nombre</th>
                         <th>Ruc</th>
-                        <th>Descripcion</th>
-                        <th>telefono</th>
+                        <th>Direccion</th>
                         <th>Apertura</th>
                         <th>Cierre</th>
-                        
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </thead> 
                     <tbody id="datos">
                             
@@ -154,11 +180,7 @@
                 </table> 
             </div>
         </div>
-        <div class="col-md-4 col-md-offset-10">
-        <a href="{{ url('/home') }}">
-                    <button type="button" class="mybtn" >Regresar</button>
-            </a>  
-        </div>
+        
     </div>
 </div>
 @endsection
@@ -199,11 +221,11 @@
                    value.telefono==null || 
                    value.ruc==null)
                 {
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-info'>Agregar producto"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+""+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
                 
                 }
                 else{
-                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+value.descripcion+"</td><td>"+value.telefono+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-info'>Agregar producto"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nombrenegocio+"</td><td>"+value.ruc+"</td><td>"+ direccion+"</td><td>"+value.hora_inicio+"</td><td>"+value.hora_fin+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td><td>"+"<button OnClick='Redirect();' class='btn btn-success'>Agregar producto"+"</td></tr>");
                 
                 }
            });
@@ -266,10 +288,12 @@
     $("#guardarmodal").click(function(){
         document.getElementById("latitud").value=document.getElementById("lat").value;
         document.getElementById("longitud").value=document.getElementById("long").value;
+        document.getElementById("direccion").value = document.getElementById("direccionmodal").value;
     });
 </script>
 
 <script>
+    var direccion;
        map : false;
        marker : false;
        var coords = {};
@@ -278,18 +302,19 @@
          //usamos la API para geolocalizar el usuario
             navigator.geolocation.getCurrentPosition(
               function (position){
-                coords =  {
+                coords = {
                   lng: position.coords.longitude,
                   lat: position.coords.latitude
                 };
+               
+                
                 setMapa(coords);  //pasamos las coordenadas al metodo para crear el mapa
               },function(error){console.log(error);});
             
-
        }
        function setMapa(coords){
 
-          map = new google.maps.Map(document.getElementById('mapa'), {
+            map = new google.maps.Map(document.getElementById('mapa'), {
             center:new google.maps.LatLng(coords.lat,coords.lng),
 
             scrollwheel: false,
@@ -299,12 +324,33 @@
             mapTypeControl: true,
             streetViewControl: false,
           });
-
+         
           // Creamos el marcador
           marker = new google.maps.Marker({
           position: new google.maps.LatLng(coords.lat,coords.lng),
           draggable: true
           });
+          var geocoder = new google.maps.Geocoder();
+          myLatLng = new google.maps.LatLng({lat: coords.lat, lng: coords.lng}); 
+          marker.setPosition(myLatLng);
+          geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                var address=results[0]['formatted_address'];
+                
+                document.getElementById("direccionmodal").value = address;
+                }
+            });
+          
+          google.maps.event.addListener(marker, 'dragend', function() {
+            geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                var address=results[0]['formatted_address'];
+                document.getElementById("direccionmodal").value = address;
+                }
+            });
+        });
+            
+
           document.getElementById("lat").value = coords.lat;
           document.getElementById("long").value = coords.lng;  
           // Le asignamos el mapa a los marcadores.
@@ -313,6 +359,7 @@
 
             marker.addListener( 'dragend', function (event)
             {
+                
               //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
               document.getElementById("lat").value = this.getPosition().lat();
               document.getElementById("long").value = this.getPosition().lng();

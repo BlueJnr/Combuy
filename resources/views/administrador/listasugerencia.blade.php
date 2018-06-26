@@ -3,7 +3,7 @@
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Tipo de producto</th>
-        <th></th>
+        <th>Opciones</th>
     </thead> 
     <tbody>
             @foreach($sugerencias as $sugerencia)

@@ -12,9 +12,9 @@
     
     {!!Html::style('css/app.css')!!}
     {!!Html::style('css/bootstrap.min.css')!!}
-    {!!Html::style('css/cuentas2.css')!!}
+    {!!Html::style('css/cuentas.css')!!}
     {!!Html::style('css/style.css')!!}
-    {!!Html::style('css/reg_ubicacion.css')!!}
+    {!!Html::style('css/reg_ubicacion1.css')!!}
     <script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
     <link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
 
@@ -23,9 +23,9 @@
 <body>
   <header>
     <div class="logo">
-        <a href="{{ url('/') }}" >
+        <a href="{{ url('/') }} " class="log" >
             <span>
-                <i  class="icon icon-rocket">
+                <i  class="icon icon-cart">
                 </i>
             </span>COMBUY
         </a>
@@ -44,7 +44,7 @@
               </li>
               <li class="l1">
                   <a href="#" >
-                      <span class="span3"><i class="icon-paste"></i></span>Productos</span>
+                      <span class="span4"><i class="icon-paste"></i></span>Productos</span>
                   </a>
                   <ul class="ul2">
                       <li class="l2">
@@ -57,7 +57,7 @@
                   </ul>
               </li>
               <li class="l1">
-                  <a href="#"><span class="span4"><i class=" icon icon-cart"></i></span>Pedidos</a>
+                  
               </li>
               <li class="l1">
                   <a href="#" ><span class="span5"><i class=" icon icon-happy"></i></span>Usuario</a>

@@ -13,9 +13,9 @@
 
     {!!Html::style('css/app.css')!!}
     {!!Html::style('css/bootstrap.min.css')!!}
-    {!!Html::style('css/cuenta.css')!!}
+    {!!Html::style('css/cuentas.css')!!}
     {!!Html::style('css/style.css')!!}
-    {!!Html::style('css/reg_ubicacion.css')!!}
+    {!!Html::style('css/reg_ubicacion1.css')!!}
 
 </head>
 
@@ -23,10 +23,13 @@
   <header>
 
   <div class="logo">
-      <a href="{{ url('/') }}" >
-        COMBUY
-      </a>
-  </div>
+          <a class="log" href="{{ url('/home') }}" >
+              <span>
+                  <i  class="icon icon-cart">
+                  </i>
+              </span>COMBUY
+          </a>
+   </div>
   
   <div class="nav">
       <nav class="navbar navbar-static-top" role="navigation">
@@ -34,23 +37,7 @@
               <li class="l1">
                   <a href="{{ url('/') }}" ><span class=" span1"><i  class="icon icon-home"></i></span>Inicio</a>
               </li>
-              
-            
-              <li class="l1">
-                  <a href="#" >
-                      <span class="span3"><i class="icon-paste"></i></span>Productos</span>
-                  </a>
-                  <ul class="ul2">
-                      <li class="l2 submenu">
-                          <a href="{{ url('/producto/create') }}" >Ingresar</a>
-                          
-                      </li>
-                      <li class="l2">
-                          <a href="{{ url('/producto') }}">Revisar </span>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
+
               <li class="l1">
                   <a href="#" ><span class="span5"><i class=" icon icon-happy"></i></span>Admin</a>
                   <ul class="ul2">

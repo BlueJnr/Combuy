@@ -52,7 +52,7 @@ class infoempresaController extends Controller
      */
     public function store(Request $request)
     {
-       
+    
       $reglas = [
         'latitud' => 'max:30',
         'longitud' => 'max:30',
@@ -94,6 +94,7 @@ class infoempresaController extends Controller
             'ruc'=>$request->ruc,
             'latitud'=>$request->latitud,
             'longitud'=>$request->longitud,
+            'direccion'=>$request->direccion,
             'descripcion'=>$request->descripcion,
             'hora_inicio'=>$request->Hora_inicio,
             'hora_fin'=>$request->Hora_fin,

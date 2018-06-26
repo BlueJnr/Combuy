@@ -3,7 +3,7 @@
 
 @section('content')
 
-{!!Html::style('css/reg_ubicacion.css')!!}
+{!!Html::style('css/reg_ubicacion1.css')!!}
 {!!Html::style('css/style.css')!!}
 
 

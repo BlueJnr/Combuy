@@ -1,4 +1,5 @@
-<table class="table table-bordered">
+{!!Html::style('css/tablas.css')!!}
+<table class="table">
     <thead>
         <th>Nombre</th>
         <th>Descripción</th>

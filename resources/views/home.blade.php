@@ -10,10 +10,10 @@
                 <img src="image/im3.jpg" alt="" title="#htmlcaption3" />
             </div>
             <div id="htmlcaption1" class="nivo-html-caption">
-                <h1>Sean Bienvenidos</h1>
+                <h1>Sean Bienvenidos a COMBUY</h1>
             </div>
             <div id="htmlcaption2" class="nivo-html-caption">
-                <h1>Acerca de Nosotros</h1>
+                <h1>Vende ya! </h1>
             </div>
             <div id="htmlcaption3" class="nivo-html-caption">
                 <h1>Gracias por visitar</h1>
@@ -25,8 +25,8 @@
                 {{ Session::get('message') }}
             </div>
     @endif
-    <div class="mycaja">
-        <div class="caja">
+    <div class="mycaja" >
+        <div class="caja" style="padding: 40px 10px;">
             <img src="image/sidebar_usuario-corporativo.png" >
             <h2 class="h2">USUARIO</h2>
             <h2> {{ Auth::user()->username }}  </h2>
@@ -35,10 +35,10 @@
             </a>
         </div>
         <div class="caja">
-            <h2>Información Personal</h2>
-            <h2 class="h2">NOMBRE</h2>
+            <h1>INFORMACIÓN PERSONAL</h1>
+            <h2 class="h2">Nombre</h2>
             <h2>{{ Auth::user()->name }}</h2>
-            <h2 class="h2">APELLIDO</h2>
+            <h2 class="h2">Apellido</h2>
             <h2>{{ Auth::user()->lastname }}</h2>
             <p class="pdiv">
                
@@ -49,11 +49,11 @@
            
         </div>
         <div class="caja">
-            <h3>Información de mi negocio</h3>
-            
-            <p class="pdiv">
-                
-            </p>
+            <h1>INFORMACIÓN PERSONAL</h1>
+            <h2 class="h2">Descripción</h2>
+            <h2>{{ $dato->descripcion }}</h2>
+            <h2 class="h2">TELÉFONO</h2>
+            <h2>{{ $dato->telefono }}</h2>
             <a href="{{ url('empresa')}}">
             <button type="submit" class="bdiv ">Editar</button>
             </a>

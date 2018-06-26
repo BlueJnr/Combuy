@@ -4,7 +4,8 @@
 
 @section('content')
 
-{!!Html::style('css/reg_ubicacion.css')!!}
+{!!Html::style('css/reg_ubicacion1.css')!!}
+{!!Html::style('css/reg_producto.css')!!}
 
 <script src="{{ asset('assets/sweetalert/sweetalert2.min.js')}}"></script>
 <link href="{{ asset('assets/sweetalert/sweetalert2.min.css') }}" rel="stylesheet">
@@ -21,9 +22,7 @@
                     <div id="message-success" class="alert alert-success alert-dismissible" role="alert" style="display:none">
                         <strong>Se agregó la sugerencia correctamente.</strong>
                     </div>
-                    <div id="message-eliminar" class="alert alert-success alert-dismissible" role="alert" style="display:none">
-                        <strong>Se eliminó la sugerencia correctamente.</strong>
-                    </div>
+                   
                     <div id="message-editar" class="alert alert-success alert-dismissible" role="alert" style="display:none">
                         <strong>Se editó la sugerencia correctamente.</strong>
                     </div>
@@ -39,9 +38,9 @@
                      @endif
                     
                 <br>
-                <div id="tipoempresa">
-                    <button type="button" class="btn btn-dark" id="combo" value="combo">COMBO</button>
-                    <button type="button" class="btn btn-dark" id="unidad" value="unidad">UNIDAD</button>
+                <div id="tipoempresa" class="admin">
+                    <button type="button" class="deslizar" id="combo" value="combo">COMBO</button>
+                    <button type="button" class="deslizar" id="unidad" value="unidad">UNIDAD</button>
                 </div>
                     
                 <div class="panel-body" id="tablasugerencia">

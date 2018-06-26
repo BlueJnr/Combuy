@@ -1,0 +1,123 @@
+.btnini button{
+    margin-left: 80px;
+
+}
+
+.btntipo button{
+    margin-left: 200px;
+    margin-top: 20px;
+}
+
+.btnito {
+    margin-left: 70px;
+    margin-top: 30px;
+    padding: 10px 20px;
+}
+
+.btnote{
+    padding: 5px 15px;
+}
+
+.llenar:hover,.llenar:focus{
+    box-shadow: inset 0 -3.25em 0 0 var(--hover);
+}
+
+.llenar2:hover,.llenar2:focus{
+    box-shadow: inset 0 -3.5em 0 0 var(--hover);
+}
+
+.deslizar:hover,.deslizar:focus{
+    box-shadow: inset 7.5em 0 0 0 var(--hover);
+}
+
+.llenar{
+    --color: #5a57cb;
+    --hover: #3b4b7d;
+}
+
+.llenar2{
+    --color: #5191a7;
+    --hover: #0d779c;
+    margin-left: 280%;
+    margin-bottom: 20px;
+}
+
+.deslizar{
+    --color: #9478bc;
+    --hover: #6c4285;
+}
+
+button{
+    color: var(--color);
+    -webkit-transition: 0.25s;
+    transition: 0.25s;
+}
+
+button:hover,button:focus{
+    border-color: var(--hover);
+    color:#fff;
+}
+
+
+button{
+    background: rgba(255, 255, 255, 0.32);
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+th,td,tr,.table-bordered>tbody>tr>td,.table-bordered>thead>tr>th{
+    border: 2px solid #293456;
+    text-align: center;
+}
+
+thead{
+    background: #244375;
+    color: whitesmoke;
+}
+
+.modal-header{
+    background: #546097;
+    text-align: center;
+    COLOR: WHITE;
+}
+
+.modal-title{
+    padding-left: 30px;
+}
+
+.btn-primary{
+    /*margin-left: 250px;*/
+}
+
+.btntipo2{
+    margin-left: 404px;
+}
+
+.btntipo2 .deslizar{
+    margin: 0px 50px;
+}
+
+.boton{
+    margin-left: 97%;
+    padding: 0px 10px;
+}
+
+h3{
+    color: #36386e;
+}
+
+.nego .llenar{
+    margin-left: 90px;
+}
+
+.admin .deslizar{
+    margin-left: 200px;
+}
+
+.bv{
+    margin-left: 300px;
+}

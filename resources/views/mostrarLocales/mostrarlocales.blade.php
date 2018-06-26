@@ -4,7 +4,7 @@
 @section('content')
 
 
-{!!Html::style('css/reg_ubicacion.css')!!}
+{!!Html::style('css/reg_ubicacion1.css')!!}
 
 <div class="container">
     <div class="row">

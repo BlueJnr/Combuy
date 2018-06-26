@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LocalNegocio extends Model
 {
     protected $table="localnegocio";
-    protected $fillable=['nombrenegocio','ruc','latitud','longitud','descripcion','telefono','hora_inicio','hora_fin','idtiponegocio'];
+    protected $fillable=['nombrenegocio','ruc','latitud','longitud','direccion','descripcion','telefono','hora_inicio','hora_fin','idtiponegocio'];
     protected $primaryKey="id";
     public $timestamps=false;
 

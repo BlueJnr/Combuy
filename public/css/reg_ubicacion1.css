@@ -5,6 +5,12 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+
+html{
+    width: 100%;
+}
+
 body{
     width: 100%;
     background-image: url("../image/f1.jpg");
@@ -12,38 +18,45 @@ body{
     background-attachment: fixed;
 }
 
-html{
-    width: 100%;
-}
-
 /*---------HEADER-------------*/
 
 .menu_bar {
     display:none;
+
 }
 .logo{
-    display: inline-block;
-    width: 50%;
+    width: 100%;
     background: #023859;
-    float: left;
     position: relative;
+    z-index: 100000;
+    text-align: center;
+    color: white;
+    font-size:24px ;
+    text-decoration: none;
 }
-.nav{
-    display: inline-block;
-    width: 50%;
-    float: left;
+.logo a{
+    font-family: 'Sigmar One';
+    font-size: 32px;
+    color: #eee9e9;
+    text-shadow: 2px 2px #000, 1px 1px #142533, 2px 2px #142533, 3px 3px #142533, 4px 4px #142533, 5px 5px #142533,
+    6px 6px #142533, 7px 7px #142533,  8px 8px #142533, 9px 9px #142533, 10px 10px #142533;
+
+}
+ a:hover{
+    text-decoration-line: none;
 }
 
 nav {
     background: #023859;
-    z-index:1000;
+    z-index:10;
     width: 100%;
     top: 0px;
-    height: 60px;
+    text-align: center;
 }
 
 .ul1 {
     list-style:none;
+    margin: 0;
 }
 
 .l1 {
@@ -53,7 +66,6 @@ nav {
 
 li:hover {
     background:#E6344A;
-
 }
 
 a {
@@ -62,6 +74,7 @@ a {
     text-decoration:none;
     padding: 20px;
 }
+
 a:hover{
     color: white;
 }
@@ -197,9 +210,9 @@ h3 {
 input[type="text"],
 input[type="password"],
 input[type="email"],
-textarea,
+textarea,.selecc,
 textarea.form-control {
-    height: 50px;
+    height: 40px;
     vertical-align: middle;
     background: #ffffff;
     border: 2px solid rgba(16, 51, 87, 0.66);
@@ -212,7 +225,7 @@ textarea.form-control {
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
-textarea:focus,
+textarea:focus,.selecc:focus,
 textarea.form-control:focus {
     background: #fff;
     border: 2px solid #1AAE88;
@@ -263,128 +276,48 @@ button.mybtn:focus {
     padding: 0px 10px ;
 }
 
-@media screen and (max-width: 987px) {
-    body {
-        padding-top:80px;
+@media (max-width: 987px) {
+
+    .myslide{
+        padding-top: 100px;
     }
 
-    .menu_bar {
-        display:block;
-        width:100%;
-        position: fixed;
-        top:0;
-        background:#E6344A;
-        z-index: 10000;
-    }
-
-    .menu_bar .bt-menu {
+    .menu_bar{
         display: block;
-        padding: 20px;
-        color: #fff;
-        overflow: hidden;
-        font-size: 25px;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    .menu_bar span {
-        float: right;
-        font-size: 40px;
-    }
-
-    .logo{
-        width: 80%;
-        height: calc(100% - 80px);
-        position: fixed;
-        right:100%;
-        margin: 0;
-    }
-
-    nav {
         width: 100%;
-        height: calc(100% - 80px);
-        position: fixed;
+        cursor: pointer;
+        font-size:24px ;
+        float: right;
+        background-color: darkslateblue;
+    }
 
-        left: -100%;
+    header nav{
+        /*display: none;*/
+        width: 100%;
+        left: 0;
+        padding: 0;
+    }
+
+    .navi{
+        display: block;
+    }
+
+    .ul1{
+        text-align: center;
         margin: 0;
-        z-index: 100;
     }
 
-    .myform-cont{
-        z-index: 10;
-    }
-
-    .myform-top{
-        top: -200px;
+    .l1{
+        display: block;
     }
 
     .span1,.span2,.span3,.span4,.span5{
-        height: 0px;
-        width: 0px;
-        left:-8px;
-    }
-
-    .l1:hover .span1,
-    .l1:hover .span2,
-    .l1:hover .span4,
-    .l1:hover .span5{
-        height: 100%;
-        width: 100%;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .l1:hover .span3{
-        height:33%;
-        width: 100%;
-        left: 0;
-    }
-
-    .l1 {
-        display: block;
-        border-bottom:1px solid rgba(255,255,255,.5);
-    }
-
-    .l1 a {
-        display: block;
-    }
-
-    .ul2 {
-        width: 100%;
-        position: relative;
-    }
-    .l2 {
-        display: block;
-        border-bottom:1px solid rgba(255,255,255,.5);
-    }
-    .l2 a {
-        display: block;
-    }
-
-    .l2:hover .ul3{
-        left:0;
         display: none;
     }
 
-    .ul3 {
-        width: 100%;
-        position: relative;
-    }
 
-    h3{
-        font-size: 32px;
-    }
 
-    .gr1{
-        height: 50px;
-        margin-bottom: 37%;
-    }
 
-    .myform-bottom{
-        margin: 0;
-        padding-top: 0;
-    }
+
 
 }

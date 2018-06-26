@@ -184,7 +184,7 @@ class productoController extends Controller
             $sugerencia->idlocalnegocio=$idlocalnegocio->idlocalnegocio;
             $sugerencia->save();
             
-            Session::flash('message', 'Se ha enviado la sugerencia');
+            Session::flash('message', 'Sugerencia enviada, se enviara un correo de aprobación al correo: '.auth()->user()->email);
             return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
         }else{
             return view('ProductoOperaciones.registProducto',compact('tipoproducto'));

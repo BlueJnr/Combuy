@@ -27,9 +27,10 @@
 <body>
 <div class="slider-wrap">
     <ul class="rslides">
-        <li><img src="image/im1.jpg" alt=""></li>
-        <li><img src="image/im2.jpg" alt=""></li>
-        <li><img src="image/im3.jpg" alt=""></li>
+        <li><img src="image/login/im1.jpg" alt=""></li>
+        <li><img src="image/login/im2.jpg" alt=""></li>
+        <li><img src="image/login/im3.jpg" alt=""></li>
+        <li><img src="image/login/im4.jpg" alt=""></li>
     </ul>
 
 

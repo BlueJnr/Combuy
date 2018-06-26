@@ -97,7 +97,7 @@ class usuarioController extends Controller
             ]);
             $usuario->save();
             Session::flash('message','Ha editado correctamente sus datos');
-            return view("usuario.infocuenta");
+            return redirect()->back();
             
        
         

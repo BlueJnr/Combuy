@@ -3,9 +3,8 @@
 
 @section('content')
 
-{!!Html::style('css/reg_ubicacion.css')!!}
-
-
+{!!Html::style('css/reg_ubicacion1.css')!!}
+{!!Html::style('css/reg_producto.css')!!}
 
 @include('ProductoOperaciones.modalregistro')
 
@@ -35,16 +34,27 @@
                         </ul>
                     </div>
                     @endif
-                    <div id="tiporegistro">
-                        <button type="button" class="btn btn-dark" id="proexists">Productos existentes</button>
-                        <button type="button" class="btn btn-dark" id="pronuevos">Sugerencias</button>
-                        <button type="button" class="btn btn-dark" id="verproductos">Ver Productos</button>
-                        
+                    <div id="tiporegistro" class="btnini">
+                        <div class="col-md-4">
+                        <button type="button" class="llenar" id="proexists">Productos existentes</button>
+                        </div>
+                        <div class="col-md-4">
+                        <button type="button"  class="llenar" id="pronuevos">Sugerencias</button>
+                        </div>
+                        <div class="col-md-4">
+                        <button type="button"  class="llenar" id="verproductos">Mis productos</button>
+                        </div>
                     </div>
                     <br>
-                    <div id="tipoempresa">
-                        <button type="button" class="btn btn-dark" id="combo" value="combo">Combo</button>
-                        <button type="button" class="btn btn-dark" id="unidad" value="unidad">Unidad</button>
+                    <br>
+                    <br>
+                    <div id="tipoempresa" class="btntipo">
+                        <div class="col-md-2">  
+                        <button type="button" class="deslizar" id="combo" value="combo">Combo</button>
+                        </div>
+                        <div class="col-md-2">
+                        <button type="button" class="deslizar" id="unidad" value="unidad">Unidad</button>
+                        </div>
                     </div>
                     <div class="panel-body" id="contenedorForm">
                         <form class="form-horizontal" method="POST" action="{{ route('producto.store') }}">
@@ -100,23 +110,24 @@
                             <!--BOTON REGISTRAR EN BLADE-->
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-success" id="registrodd">
+                                    <button type="submit" class="btn btn-success btnito" id="registrodd">
                                         Registrar
                                     </button>
                                 </div>
                             </div>
                         </form>
                     </div>
+                
+                    <br>
+                    <br>
                 <div class="panel-body" id="tablaproductos">
                    <div id="lista-producto">
 
                    </div>
                 </div>
         </div>
-        <div class="col-md-4 col-md-offset-10">
-        <a href="{{ url('/home') }}">
-            <button type="button" class="mybtn" >Regresar</button>
-        </a>  
+       
+        
     </div>
     </div>
 </div>
@@ -130,7 +141,7 @@
         $('#selectortipo').hide();
         setInterval(function(){ 
             $("#message").fadeOut();
-        },5000);
+        },9000);
 
     });
     $("#verproductos").click(function(){ 
