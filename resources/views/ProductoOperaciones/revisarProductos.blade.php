@@ -38,6 +38,7 @@
                       <th>Nombre</th>
                       <th>Tipo</th>
                       <th>Descripción</th>
+                      <th>Etiqueta</th>
                       <th></th>
                   </thead> 
                   <tbody id="datos">
@@ -86,7 +87,7 @@
             if(res){
                 tablaDatos.html('');
                 $(res).each(function(key,value){   
-                    tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.nomtipo+"</td><td>"+value.descripcion+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
+                    tablaDatos.append("<tr><td>"+value.nomproducto+"</td><td>"+value.nomtipo+"</td><td>"+value.descripcion+"</td><td>"+value.etiqueta+"</td><td>"+"<button value="+value.id+" OnClick='Eliminar(this);' class='btn btn-danger'>eliminar"+"</td></tr>");
                 });
                 
             }else{

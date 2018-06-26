@@ -1,9 +1,9 @@
-{!!Html::style('css/tablas.css')!!}
+
 <table class="table">
     <thead>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Tipo de producto</th>
+        <th>Etiqueta</th>
         <th>Accion</th>
     </thead> 
     <tbody>
@@ -11,7 +11,7 @@
             <tr>
                 <td>{{$product->nomproducto}}</td>
                 <td>{{$product->descripcion}}</td>
-                <td>{{$product->nomtipo}}</td>
+                <td>{{$product->etiqueta}}</td>
                 <td>
                 <button value="{{$product->nomproducto}}" OnClick='Mostrar({{$product->id}});' data-toggle='modal' data-target='#myModal' class='btn btn-success'>agregar</td>
                 </td>

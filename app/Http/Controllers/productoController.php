@@ -57,7 +57,7 @@ class productoController extends Controller
         $productos=DB::table('productolocal')
         ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
         ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
-        ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre')
+        ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre','productolocal.etiqueta')
         ->where('tipoproducto.nomtipo',$tipo)
         ->paginate(5);
         //return response()->json($productos);
@@ -79,7 +79,7 @@ class productoController extends Controller
             ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
             ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
             ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
-            ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion')
+            ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion','productolocal.etiqueta')
             ->where([
                 ['productolocal.idtipoproducto', '=',$tipoproducto->id],
                 ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
