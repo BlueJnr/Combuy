@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Session;
+use Exception;
 
 
 class usuarioController extends Controller
@@ -35,6 +36,7 @@ class usuarioController extends Controller
     }
     public function usuarioedit(Request $request)
     {
+        try{
             $reglas = [
                 'name' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
                 'lastname' => ['required','max:50','regex:/^[A-Za-z\s]+$/'],
@@ -64,11 +66,17 @@ class usuarioController extends Controller
             Session::flash('message','Ha editado correctamente sus datos');
             return redirect("usuario");
         
+        }catch(Exception $e){
+          
+          return $e->getMessage();
+        }
+            
+        
     }
     public function datosusuario(Request $request)
     {
-      
-            $usuario=User::find(auth()->user()->id);
+      try{
+       $usuario=User::find(auth()->user()->id);
             if($usuario->username==$request->username){
                 $reglas = [
                     'username' => 'required|string|max:50',
@@ -90,7 +98,7 @@ class usuarioController extends Controller
             }
            
             $this->validate($request,$reglas,$messages);
-            $usuario=User::find(auth()->user()->id);
+            
             $usuario->fill([
                 'username'=>$request->username,
                 'password' => bcrypt($request->password),
@@ -100,7 +108,10 @@ class usuarioController extends Controller
             return redirect()->back();
             
        
+      }catch(Exception $e){
         
+        return $e->getMessage();
+      }
     }
     
 

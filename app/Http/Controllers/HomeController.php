@@ -24,12 +24,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $negocioactual=DB::table('admnegocio')
-        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-        ->join('localnegocio','admnegocio.idlocalnegocio','=','localnegocio.id')
-        ->select('descripcion','telefono')
-        ->where('users.id', '=',auth()->user()->id)
-        ->first();
-        return view('home')->with('dato',$negocioactual);
+        try{
+            $negocioactual=DB::table('admnegocio')
+            ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+            ->join('localnegocio','admnegocio.idlocalnegocio','=','localnegocio.id')
+            ->select('descripcion','telefono')
+            ->where('users.id', '=',auth()->user()->id)
+            ->first();
+            return view('home')->with('dato',$negocioactual);
+        }catch(Exception $e){
+          
+            return $e->getMessage();
+        }
+        
     }
 }

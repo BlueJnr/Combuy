@@ -47,98 +47,113 @@ class productoController extends Controller
     }
     public function selecionnegocio($tipo)
     {
+        try{
+            $idnegocioactual=DB::table('admnegocio')
+            ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+            ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
+            ->first();
+            
+            $productos=DB::table('productolocal')
+            ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
+            ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
+            ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre','productolocal.etiqueta')
+            ->where('tipoproducto.nomtipo',$tipo)
+            ->paginate(5);
+            //return response()->json($productos);
+            return view('ProductoOperaciones.listaproductos')->with('productos',$productos);
+        }catch(Exception $e){
+          
+            return $e->getMessage();
+        }
         
-        
-        $idnegocioactual=DB::table('admnegocio')
-        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-        ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
-        ->first();
-        
-        $productos=DB::table('productolocal')
-        ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
-        ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
-        ->select('productolocal.id','productolocal.nomproducto','productolocal.descripcion','tipoproducto.nomtipo','tipolocalproducto.nombre','productolocal.etiqueta')
-        ->where('tipoproducto.nomtipo',$tipo)
-        ->paginate(5);
-        //return response()->json($productos);
-        return view('ProductoOperaciones.listaproductos')->with('productos',$productos);
         
     }
     public function revisarproductos($tipo)
     {
-        $idnegocioactual=DB::table('admnegocio')
-        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-        ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
-        ->first();
-        
-       
-        $tipoproducto=DB::table('tipoproducto')->where('nomtipo',$tipo)->first();
-        
-        if($idnegocioactual!=null){
-            $productos=DB::table('prodnegocios')
-            ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
-            ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
-            ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
-            ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion','productolocal.etiqueta')
-            ->where([
-                ['productolocal.idtipoproducto', '=',$tipoproducto->id],
-                ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
-            ->get();
-            return response()->json($productos);
+        try{
+            $idnegocioactual=DB::table('admnegocio')
+            ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+            ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
+            ->first();
+            
+           
+            $tipoproducto=DB::table('tipoproducto')->where('nomtipo',$tipo)->first();
+            
+            if($idnegocioactual!=null){
+                $productos=DB::table('prodnegocios')
+                ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
+                ->join('tipoproducto','productolocal.idtipoproducto','=','tipoproducto.id')
+                ->join('tipolocalproducto','productolocal.idtipolocalproducto','=','tipolocalproducto.id')
+                ->select('productolocal.id','productolocal.nomproducto','tipoproducto.nomtipo','productolocal.descripcion','productolocal.etiqueta')
+                ->where([
+                    ['productolocal.idtipoproducto', '=',$tipoproducto->id],
+                    ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
+                ->get();
+                return response()->json($productos);
+            }
+            else{
+                $nada=false;
+                return response()->json($nada);
+            }
+        }catch(Exception $e){
+          
+            return $e->getMessage();
         }
-        else{
-            $nada=false;
-            return response()->json($nada);
-        }
-        
         
     }
     public function registro(Request $request){
-        $reglas = [
-            'precio' => ['required','min:4','max:5','regex:/([?1234567890][.][0-9][0-9])+$/'], 
-            'stock' => ['required','max:3','regex:/^[0-9]+$/'],
-          ];
-          $messages = [
-            'precio.required' => 'No ha ingresado el precio.',
-            'precio.min' => 'Formato de precio incorrecto.',
-            'precio.max' => 'Formato de precio incorrecto.',
-            'precio.regex' => 'Formato de precio incorrecto.',
-            'stock.required' => 'No ha ingresado el stock.',
-            'stock.regex' => 'Formato de stock incorrecto.',
-            'stock.max' => 'Cantidad de stock muy grande por unidad de producto.',
-        ];
-           
-            
-            $validator = Validator::make($request->all(),$reglas,$messages);
-            
-            if ($validator->passes()) {
-
-                $prodnegocio=new prodnegocio();
-                $productolocal=new ProductoLocal();
+        try{
+            $reglas = [
+                'precio' => ['required','min:4','max:5','regex:/([?1234567890][.][0-9][0-9])+$/'], 
+                'stock' => ['required','max:3','regex:/^[0-9]+$/'],
+              ];
+              $messages = [
+                'precio.required' => 'No ha ingresado el precio.',
+                'precio.min' => 'Formato de precio incorrecto.',
+                'precio.max' => 'Formato de precio incorrecto.',
+                'precio.regex' => 'Formato de precio incorrecto.',
+                'stock.required' => 'No ha ingresado el stock.',
+                'stock.regex' => 'Formato de stock incorrecto.',
+                'stock.max' => 'Cantidad de stock muy grande por unidad de producto.',
+            ];
+               
                 
-                $idnegocioactual=DB::table('admnegocio')
-                ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-                ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
-                ->first();
-        
-                $prodexistente=DB::table('prodnegocios')
-                ->where([
-                    ['idproductolocal','=',$request->id],
-                    ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
-                ->exists();
-                if($prodexistente){
-                    return response()->json(['success' => 'false']);
+                $validator = Validator::make($request->all(),$reglas,$messages);
+                
+                if ($validator->passes()) {
+    
+                    $prodnegocio=new prodnegocio();
+                    $productolocal=new ProductoLocal();
+                    
+                    $idnegocioactual=DB::table('admnegocio')
+                    ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+                    ->select('admnegocio.idlocalnegocio')->where('users.id',auth()->user()->id)
+                    ->first();
+            
+                    $prodexistente=DB::table('prodnegocios')
+                    ->where([
+                        ['idproductolocal','=',$request->id],
+                        ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
+                    ->exists();
+                    if($prodexistente){
+                        return response()->json(['success' => 'false']);
+                    }
+                    else{
+                        $prodnegocio->idlocalnegocio=$idnegocioactual->idlocalnegocio;
+                        $prodnegocio->idproductolocal=$request->id;
+                        $prodnegocio->precio=$request->precio;
+                        $prodnegocio->stock=$request->stock;
+                        $prodnegocio->save();
+                        return response()->json(['success' => 'true']); 
+                    }
                 }
-                else{
-                    $prodnegocio->idlocalnegocio=$idnegocioactual->idlocalnegocio;
-                    $prodnegocio->idproductolocal=$request->id;
-                    $prodnegocio->precio=$request->precio;
-                    $prodnegocio->stock=$request->stock;
-                    $prodnegocio->save();
-                    return response()->json(['success' => 'true']); 
-                }
-            }
-            return response()->json(['errors' => $validator->errors()]);
+                return response()->json(['errors' => $validator->errors()]);
+
+        }catch(Exception $e){
+          
+            return $e->getMessage();
+        }
+       
     }
   
     
@@ -151,44 +166,51 @@ class productoController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $sugerencia= new sugerencias();
-        $tipolocalproducto=new tipolocalproducto();
-        $tipoproducto=TipoProd::All();
+        try{
+            $sugerencia= new sugerencias();
+            $tipolocalproducto=new tipolocalproducto();
+            $tipoproducto=TipoProd::All();
+    
+    
+            $reglas = [
+                'tiponego' => 'required',
+                'nombre' => ['required','max:20','string'],
+                'descripcion' =>['required','max:50','string'],
+            ];
+              $messages = [
+                'nombre.max' => ' El nombre del producto ingresado es muy grande.',
+                'nombre.string' => ' Solo caracteres alfabeticos.',
+                'descripcion.string' => ' Solo caracteres alfabeticos.',
+            ];
+            $validator = Validator::make($request->all(),$reglas,$messages);
+            if($validator->passes()){
+                $idlocalnegocio=DB::table('admnegocio')
+            ->select('idlocalnegocio')
+                ->where('idusuario', auth()->user()->id)
+                ->first();
+                
+    
+                $tipolocalproducto=DB::table('tipolocalproducto')->where('nombre',$request->tiponego)->first();
+    
+                $sugerencia->nomproducto=$request->nombre;
+                $sugerencia->descripcion=$request->descripcion;
+                $sugerencia->idtipolocalproducto=$tipolocalproducto->id;
+                $sugerencia->idtipoproducto=$request->tipoproducto;
+                $sugerencia->idlocalnegocio=$idlocalnegocio->idlocalnegocio;
+                $sugerencia->save();
+                
+                Session::flash('message', 'Sugerencia enviada, se enviara un correo de aprobación al correo: '.auth()->user()->email);
+                return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
+            }else{
+                return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
+            }
 
-
-        $reglas = [
-            'tiponego' => 'required',
-            'nombre' => ['required','max:20','string'],
-            'descripcion' =>['required','max:50','string'],
-        ];
-          $messages = [
-            'nombre.max' => ' El nombre del producto ingresado es muy grande.',
-            'nombre.string' => ' Solo caracteres alfabeticos.',
-            'descripcion.string' => ' Solo caracteres alfabeticos.',
-        ];
-        $validator = Validator::make($request->all(),$reglas,$messages);
-        if($validator->passes()){
-            $idlocalnegocio=DB::table('admnegocio')
-        ->select('idlocalnegocio')
-            ->where('idusuario', auth()->user()->id)
-            ->first();
-            
-
-            $tipolocalproducto=DB::table('tipolocalproducto')->where('nombre',$request->tiponego)->first();
-
-            $sugerencia->nomproducto=$request->nombre;
-            $sugerencia->descripcion=$request->descripcion;
-            $sugerencia->idtipolocalproducto=$tipolocalproducto->id;
-            $sugerencia->idtipoproducto=$request->tipoproducto;
-            $sugerencia->idlocalnegocio=$idlocalnegocio->idlocalnegocio;
-            $sugerencia->save();
-            
-            Session::flash('message', 'Sugerencia enviada, se enviara un correo de aprobación al correo: '.auth()->user()->email);
-            return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
-        }else{
-            return view('ProductoOperaciones.registProducto',compact('tipoproducto'));
+        }catch(Exception $e){
+          
+            return $e->getMessage();
         }
+       
+       
         
     }
 
@@ -238,30 +260,36 @@ class productoController extends Controller
     }
     public function eliminarproducto($id)
     {
-        $prodnegocio=new prodnegocio();
+        try{
+            $prodnegocio=new prodnegocio();
 
-        $idnegocioactual=DB::table('admnegocio')
-        ->join('users', 'admnegocio.idusuario', '=', 'users.id')
-        ->select('admnegocio.idlocalnegocio')
-        ->where('users.id',auth()->user()->id)
-        ->first();
-       
-        $buscardatoseliminado=DB::table('prodnegocios')
-        ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
-        ->select('prodnegocios.idproductolocal','prodnegocios.idlocalnegocio')
-        ->where([
-            ['prodnegocios.idproductolocal','=',$id],
-            ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
-        ->first();
+            $idnegocioactual=DB::table('admnegocio')
+            ->join('users', 'admnegocio.idusuario', '=', 'users.id')
+            ->select('admnegocio.idlocalnegocio')
+            ->where('users.id',auth()->user()->id)
+            ->first();
         
-        $eliminado=DB::table('prodnegocios')
-        ->where([
-            ['prodnegocios.idproductolocal','=',$buscardatoseliminado->idproductolocal],
-            ['prodnegocios.idlocalnegocio', '=',$buscardatoseliminado->idlocalnegocio],])
-        ->delete();
+            $buscardatoseliminado=DB::table('prodnegocios')
+            ->join('productolocal','prodnegocios.idproductolocal','=','productolocal.id')
+            ->select('prodnegocios.idproductolocal','prodnegocios.idlocalnegocio')
+            ->where([
+                ['prodnegocios.idproductolocal','=',$id],
+                ['prodnegocios.idlocalnegocio', '=',$idnegocioactual->idlocalnegocio],])
+            ->first();
+            
+            $eliminado=DB::table('prodnegocios')
+            ->where([
+                ['prodnegocios.idproductolocal','=',$buscardatoseliminado->idproductolocal],
+                ['prodnegocios.idlocalnegocio', '=',$buscardatoseliminado->idlocalnegocio],])
+            ->delete();
+            
+            return response()->json([
+                "mensaje"=>"Se elimino el producto del negocio"
+            ]);
         
-        return response()->json([
-            "mensaje"=>"Se elimino el producto del negocio"
-        ]);
+        }catch(Exception $e){
+          
+          return $e->getMessage();
+        }
     }
 }
